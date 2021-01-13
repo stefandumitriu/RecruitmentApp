@@ -22,7 +22,7 @@ public class Company {
     }
 
     public void add(Employee employee, Department department) {
-        
+        department.add(employee);
     }
     
 

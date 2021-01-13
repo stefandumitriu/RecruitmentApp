@@ -6,7 +6,7 @@ public class Finance extends Department{
     @Override
     public double getTotalSalaryBudget() {
         double totalBudget = 0;
-        for(Employee e : this.getEmployees()) {
+        for(Employee e : this.employees) {
             if(ChronoUnit.YEARS.between(LocalDateTime.now(),e.resume.experience.get(e.resume.experience.size() - 1).startYear) > 1) {
                 totalBudget += (double) e.wage * 110/100;
             }

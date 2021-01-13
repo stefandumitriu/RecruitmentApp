@@ -34,11 +34,26 @@ public class Test {
                 }
                 for(int k = 0; k < employees.length(); k++) {
                     String[] name = ((String)((JSONObject) employees.get(k)).get("name")).split(" ");
-                    System.out.println(Arrays.toString(name));
-                    mainApp.getCompany(companyName).add(new Employee(name[0], name[1], null, null, null),
-                            mainApp.getCompany(companyName).departments.get(j));
+                    JSONArray friends = ((JSONObject) employees.get(k)).getJSONArray("friends");
+                    Employee newEmp = new Employee(name[0], name[1], null, null, null);
+                    for(Object f : friends) {
+                        String[] friendName = ((String) f).split(" ");
+                        newEmp.add(new User(friendName[0], friendName[1], null, null, null));
+                    }
+                    mainApp.getCompany(companyName).add( newEmp, mainApp.getCompany(companyName).departments.get(j));
                 }
             }
+            // Testing input for departments' employees + list_of_friends
+//            for(Department d : mainApp.getCompany(companyName).departments) {
+//                System.out.println(d.getClass().getName());
+//                for(Employee e : d.employees) {
+//                    System.out.println(e.resume.userInfo.getName() + " " + e.resume.userInfo.getSurname() + " has friends:");
+//                    for(Consumer c : e.friends) {
+//                        System.out.print(c.resume.userInfo.getName() + " " + c.resume.userInfo.getSurname() +", ");
+//                    }
+//                    System.out.println("");
+//                }
+//            }
         }
     }
     public static void main(String[] args) throws IOException {

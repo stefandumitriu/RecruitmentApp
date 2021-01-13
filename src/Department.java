@@ -1,12 +1,8 @@
 import java.util.ArrayList;
 
 public abstract class Department {
-    private ArrayList<Employee> employees;
-    private ArrayList<Job> jobs;
-
-    public ArrayList<Employee> getEmployees() {
-        return employees;
-    }
+    ArrayList<Employee> employees;
+    ArrayList<Job> jobs;
 
     Department(){
         employees = new ArrayList<>();
@@ -19,9 +15,6 @@ public abstract class Department {
 
     public void remove(Employee employee) {
         employees.remove(employee);
-    }
-    public ArrayList<Job> getJobs() {
-        return jobs;
     }
 
     public void add(Job job) {
