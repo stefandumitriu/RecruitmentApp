@@ -1,12 +1,8 @@
 import org.json.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
 
 public class Test {
     public static void Parser() throws IOException {
