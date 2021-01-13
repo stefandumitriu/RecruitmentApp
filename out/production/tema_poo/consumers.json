@@ -1,0 +1,814 @@
+{
+    "employees":[
+        {
+            "name": "Harmony Lorinda",
+            "email": "harmonyl@gmail.com",
+            "phone": "+4111111111",
+            "date_of_birth": "12.01.1986",
+            "genre": "female",
+            "languages": ["English", "French"],
+            "languages_level": ["Experienced", "Beginner"],
+            "salary": 5000,
+            "education":[
+                {
+                    "level": "highschool",
+                    "name": "Thomas Jefferson High School for Science and Technology",
+                    "start_date": "01.08.2000",
+                    "end_data": "01.06.2004",
+                    "grade": 9.75
+                },
+                {
+                    "level": "college",
+                    "name": "MIT",
+                    "start_date": "01.08.2004",
+                    "end_data": "01.06.2008",
+                    "grade": 9.00
+                }
+            ],
+            "experience": [
+                {
+                    "company": "Google",
+                    "position": "SDE",
+                    "departament": "IT",
+                    "start_date": "01.07.2006",
+                    "end_date": "01.04.2010"
+                },
+                {
+                    "company": "Amazon",
+                    "position": "Senior SDE",
+                    "departament": "IT",
+                    "start_date": "01.05.2010",
+                    "end_date": null
+                }
+            ]
+        },
+        {
+            "name": "Shana Addy",
+            "email": "shanad@gmail.com",
+            "phone": "+4111111112",
+            "date_of_birth": "20.04.1995",
+            "genre": "male",
+            "languages": ["English", "German"],
+            "languages_level": ["Experienced", "Experienced"],
+            "salary": 3000,
+            "education":[
+                {
+                    "level": "highschool",
+                    "name": "Heidelberg American High School",
+                    "start_date": "01.08.2010",
+                    "end_data": "01.06.2014",
+                    "grade": 8.87
+                },
+                {
+                    "level": "college",
+                    "name": "University of Munich",
+                    "start_date": "01.08.2014",
+                    "end_data": "01.06.2018",
+                    "grade": 9.65
+                }
+            ],
+            "experience": [
+                {
+                    "company": "Amazon",
+                    "position": "Manager",
+                    "departament": "Management",
+                    "start_date": "01.05.2010",
+                    "end_date": null
+                }
+            ]
+        },
+        {
+            "name": "Leyla Stacy",
+            "email": "leylas@gmail.com",
+            "phone": "+4111111113",
+            "date_of_birth": "27.11.1994",
+            "genre": "female",
+            "languages": ["English"],
+            "languages_level": ["Experienced"],
+            "salary": 3500,
+            "education":[
+                {
+                    "level": "highschool",
+                    "name": "Kings High School",
+                    "start_date": "01.08.2015",
+                    "end_data": "01.06.2019",
+                    "grade": 8.87
+                },
+                {
+                    "level": "college",
+                    "name": "King’s College",
+                    "start_date": "01.10.2019",
+                    "end_data": null,
+                    "grade": 9.89
+                }
+            ],
+            "experience": [
+                {
+                    "company": "Amazon",
+                    "position": "Marketing Intern",
+                    "departament": "Marketing",
+                    "start_date": "01.05.2010",
+                    "end_date": null
+                }
+            ]
+        },
+        {
+            "name": "Jarred Egbert",
+            "email": "jarredeg@gmail.com",
+            "phone": "+4111111114",
+            "date_of_birth": "07.10.1986",
+            "genre": "male",
+            "languages": ["English", "German"],
+            "languages_level": ["Experienced", "Advanced"],
+            "salary": 8500,
+            "education":[
+                {
+                    "level": "highschool",
+                    "name": "Heidelberg American High School ",
+                    "start_date": "01.08.2002",
+                    "end_data": "01.06.2006",
+                    "grade": 9.87
+                },
+                {
+                    "level": "college",
+                    "name": "University of Oxford",
+                    "start_date": "01.08.2006",
+                    "end_data": "01.06.2009",
+                    "grade": 8.75
+                }
+            ],
+            "experience": [
+                {
+                    "company": "JP Morgan",
+                    "position": "Intern",
+                    "departament": "Finance",
+                    "start_date": "01.04.2009",
+                    "end_date": " 01.07.2011"
+                },
+                {
+                    "company": "Goldman Sachs",
+                    "position": "Analyst",
+                    "departament": "Finance",
+                    "start_date": "01.10.2013",
+                    "end_date": "01.10.2017"
+                },
+                {
+                    "company": "Amazon",
+                    "position": "Analyst",
+                    "departament": "Finance",
+                    "start_date": "01.02.2018",
+                    "end_date": null
+                }
+            ]
+        },
+        {
+            "name": "Bethney Kiara",
+            "email": "bethneyk@gmail.com",
+            "phone": "+4111111115",
+            "date_of_birth": "10.10.1993",
+            "genre": "female",
+            "languages": ["English"],
+            "languages_level": ["Experienced"],
+            "salary": 6000,
+            "education":[
+                {
+                    "level": "highschool",
+                    "name": "Aquinas High School ",
+                    "start_date": "01.10.2011",
+                    "end_data": "01.07.2015",
+                    "grade": 7.80
+                },
+                {
+                    "level": "college",
+                    "name": "Stanford University",
+                    "start_date": "01.08.2015",
+                    "end_data": "01.07.2019",
+                    "grade": 9.25
+                }
+            ],
+            "experience": [
+                {
+                    "company": "Amazon",
+                    "position": "Marketing agent",
+                    "departament": "Marketing",
+                    "start_date": "01.07.2019",
+                    "end_date": null
+                }
+            ]
+        },
+        {
+            "name": "Rolland Lyla",
+            "email": "rollandly@gmail.com",
+            "phone": "+4111111116",
+            "date_of_birth": "01.01.1986",
+            "genre": "female",
+            "languages": ["English", "French"],
+            "languages_level": ["Experienced", "Experienced"],
+            "salary": 9000,
+            "education":[
+                {
+                    "level": "highschool",
+                    "name": "ICS Paris",
+                    "start_date": "01.08.2005",
+                    "end_data": "01.06.2009",
+                    "grade": 8.9
+                },
+                {
+                    "level": "college",
+                    "name": "Ecole Polytechnique",
+                    "start_date": "01.08.2009",
+                    "end_data": "01.06.2013",
+                    "grade": 9.35
+                }
+            ],
+            "experience": [
+                {
+                    "company": "Google",
+                    "position": "Intern SDE",
+                    "departament": "IT",
+                    "start_date": "01.07.2013",
+                    "end_date": "01.10.2013"
+                },
+                {
+                    "company": "Softwire",
+                    "position": "SDE",
+                    "departament": "IT",
+                    "start_date": "01.09.2014",
+                    "end_date": "01.01.2015"
+                },
+                {
+                    "company": "Bloomberg",
+                    "position": "SDE",
+                    "departament": "IT",
+                    "start_date": "01.05.2015",
+                    "end_date": "01.10.2016"
+                },
+                {
+                    "company": "Google",
+                    "position": "Senior SDE",
+                    "departament": "IT",
+                    "start_date": "01.03.2017",
+                    "end_date": null
+                }
+            ]
+        },
+        {
+            "name": "Steward Goodwin",
+            "email": "stewardg@gmail.com",
+            "phone": "+4111111117",
+            "date_of_birth": "13.04.1996",
+            "genre": "male",
+            "languages": ["English"],
+            "languages_level": ["Experienced"],
+            "salary": 4500,
+            "education":[
+                {
+                    "level": "highschool",
+                    "name": "Tornados High School",
+                    "start_date": "01.08.2010",
+                    "end_data": "01.06.2014",
+                    "grade": 8.05
+                },
+                {
+                    "level": "college",
+                    "name": "University of Groningen",
+                    "start_date": "01.10.2014",
+                    "end_data": "01.07.2018",
+                    "grade": 7.6
+                }
+            ],
+            "experience": [
+                {
+                    "company": "Google",
+                    "position": "Manager",
+                    "departament": "Management",
+                    "start_date": "01.07.2018",
+                    "end_date": null
+                }
+            ]
+        },
+        {
+            "name": "Molly Rylie",
+            "email": "mollyr@gmail.com",
+            "phone": "+4111111118",
+            "date_of_birth": "03.04.1976",
+            "genre": "female",
+            "languages": ["English", "French", "Chinese"],
+            "languages_level": ["Experienced", "Experienced","Beginner"],
+            "salary": 10000,
+            "education":[
+                {
+                    "level": "highschool",
+                    "name": "Kspace International School",
+                    "start_date": "01.08.1998",
+                    "end_data": "01.07.2002",
+                    "grade": 9.87
+                },
+                {
+                    "level": "college",
+                    "name": "University of Oxford",
+                    "start_date": "01.08.2002",
+                    "end_data": "01.06.2006",
+                    "grade": 9.93
+                }
+            ],
+            "experience": [
+                {
+                    "company": "Sofwire",
+                    "position": "Marketing",
+                    "departament": "Marketing",
+                    "start_date": "01.07.2006",
+                    "end_date": "01.04.2010"
+                },
+                {
+                    "company": "Google",
+                    "position": "Researcher",
+                    "departament": "Marketing",
+                    "start_date": "01.06.2011",
+                    "end_date": "01.10.2012"
+                },
+                {
+                    "company": "Amazon",
+                    "position": "Researcher",
+                    "departament": "Marketing",
+                    "start_date": "01.02.2013",
+                    "end_date":  "01.05.2014"
+                },
+                {
+                    "company": "Google",
+                    "position": "Researcher",
+                    "departament": "Marketing",
+                    "start_date": "01.10.2015",
+                    "end_date": null
+                }
+            ]
+        },
+        {
+            "name": "Morley Denise",
+            "email": "morleyd@gmail.com",
+            "phone": "+4111111119",
+            "date_of_birth": "01.01.1997",
+            "genre": "female",
+            "languages": ["English"],
+            "languages_level": ["Experienced"],
+            "salary": 3500,
+            "education":[
+                {
+                    "level": "highschool",
+                    "name": "National High School of Berlin",
+                    "start_date": "01.08.2014",
+                    "end_data": "01.06.2018",
+                    "grade": 10
+                },
+                {
+                    "level": "college",
+                    "name": "Jacobs University",
+                    "start_date": "01.10.2018",
+                    "end_data": null,
+                    "grade": 9.45
+                }
+            ],
+            "experience": [
+                {
+                    "company": "Google",
+                    "position": "Finance Intern",
+                    "departament": "Finance",
+                    "start_date": "01.07.2020",
+                    "end_date": null
+                }
+            ]
+        },
+        {
+            "name": "Bryson Reenie",
+            "email": "brysonr@gmail.com",
+            "phone": "+4111111110",
+            "date_of_birth": "18.03.1983",
+            "genre": "male",
+            "languages": ["English", "German", "French"],
+            "languages_level": ["Experienced", "Experienced", "Advanced"],
+            "salary": 10000,
+            "education":[
+                {
+                    "level": "highschool",
+                    "name": "Jamaica Plain High School",
+                    "start_date": "01.08.2001",
+                    "end_data": "01.06.2005",
+                    "grade": 9.5
+                },
+                {
+                    "level": "college",
+                    "name": "Harvard",
+                    "start_date": "01.08.2006",
+                    "end_data": "01.06.2011",
+                    "grade": 7.65
+                }
+            ],
+            "experience": [
+                {
+                    "company": "Softwire",
+                    "position": "Marketing",
+                    "departament": "Marketing",
+                    "start_date": "01.07.2011",
+                    "end_date": "01.04.2015"
+                },
+                {
+                    "company": "Google",
+                    "position": "Marketing",
+                    "departament": "Marketing",
+                    "start_date": "01.10.2015",
+                    "end_date": null
+                }
+            ]
+        }
+    ],
+    "recruiters": [
+        {
+            "name": "Jonie Phillip",
+            "email": "jphilip@gmail.com",
+            "phone": "+4123456789",
+            "date_of_birth": "02.02.1980",
+            "genre": "male",
+            "languages": ["English", "French"],
+            "languages_level": ["Experienced", "Experienced"],
+            "salary": 8000,
+            "education":[
+                {
+                    "level": "highschool",
+                    "name": "High School of Brussels",
+                    "start_date": "01.08.2000",
+                    "end_data": "01.06.2004",
+                    "grade": 9.6
+                },
+                {
+                    "level": "college",
+                    "name": "University of Oxford",
+                    "start_date": "01.08.2004",
+                    "end_data": "01.06.2008",
+                    "grade": 8.8
+                }
+            ],
+            "experience": [
+                {
+                    "company": "Playtika",
+                    "position": "Recruiter",
+                    "start_date": "01.10.2009",
+                    "end_date": "01.01.2013"
+                },
+                {
+                    "company": "Google",
+                    "position": "Recruiter",
+                    "start_date": "01.10.2015",
+                    "end_date": null
+                }
+            ]
+        },
+        {
+            "name": "Janine Woody",
+            "email": "jwoody@gmail.com",
+            "phone": "+4123456987",
+            "date_of_birth": "12.12.1989",
+            "genre": "male",
+            "languages": ["English", "French"],
+            "languages_level": ["Experienced", "Advanced"],
+            "salary": 8000,
+            "education":[
+                {
+                    "level": "highschool",
+                    "name": "Thomas Jefferson High School for Science and Technology",
+                    "start_date": "01.08.2006",
+                    "end_data": "01.06.2010",
+                    "grade": 9.75
+                },
+                {
+                    "level": "college",
+                    "name": "MIT",
+                    "start_date": "01.08.2010",
+                    "end_data": "01.06.2014",
+                    "grade": 9.8
+                }
+            ],
+            "experience": [
+                {
+                    "company": "Google",
+                    "position": "Recruiter",
+                    "start_date": "01.01.2012",
+                    "end_date": null
+                }
+            ]
+        },
+        {
+            "name": "Darrell Lillie",
+            "email": "dlillie@amazon.com",
+            "phone": "+4333333333",
+            "date_of_birth": "05.05.1983",
+            "genre": "male",
+            "languages": ["English"],
+            "languages_level": ["Experienced"],
+            "salary": 5000,
+            "education":[
+                {
+                    "level": "highschool",
+                    "name": "Crestview High School",
+                    "start_date": "01.08.2009",
+                    "end_data": "01.06.2013",
+                    "grade": 8.75
+                },
+                {
+                    "level": "college",
+                    "name": "Bristol University",
+                    "start_date": "01.08.2013",
+                    "end_data": "01.06.2017",
+                    "grade": 7.8
+                }
+            ],
+            "experience": [
+                {
+                    "company": "Amazon",
+                    "position": "Recruiter",
+                    "start_date": "01.01.2018",
+                    "end_date": null
+                }
+            ]
+        },
+        {
+            "name": "Damian Bodhi",
+            "email": "dbodhi@amazon.com",
+            "phone": "+4444444444",
+            "date_of_birth": "29.06.1988",
+            "genre": "male",
+            "languages": ["English", "French"],
+            "languages_level": ["Experienced", "Beginner"],
+            "salary": 9000,
+            "education":[
+                {
+                    "level": "highschool",
+                    "name": "Enterprise School",
+                    "start_date": "01.08.2007",
+                    "end_data": "01.06.2011",
+                    "grade": 9.9
+                },
+                {
+                    "level": "college",
+                    "name": "MIT",
+                    "start_date": "01.06.2011",
+                    "end_data": "01.07.2014",
+                    "grade": 9.65
+                }
+            ],
+            "experience": [
+                {
+                    "company": "Microsoft",
+                    "position": "Recruiter",
+                    "start_date": "01.01.2014",
+                    "end_date": "01.05.2014"
+                },
+                {
+                    "company": "Amazon",
+                    "position": "Recruiter",
+                    "start_date": "01.10.2014",
+                    "end_date": null
+                }
+            ]
+        }
+    ],
+    "users": [
+        {
+            "name": "Daniel Edmund",
+            "email": "dedmund@gmail.com",
+            "phone": "+4444444444",
+            "date_of_birth": "20.10.1982",
+            "genre": "male",
+            "languages": ["English", "French"],
+            "languages_level": ["Experienced", "Beginner"],
+            "interested_companies": ["Google"],
+            "education":[
+                {
+                    "level": "highschool",
+                    "name": "Gilbert Classical Academy",
+                    "start_date": "01.09.2003",
+                    "end_data": "01.06.2011",
+                    "grade": 6.75
+                },
+                {
+                    "level": "college",
+                    "name": "MIT",
+                    "start_date": "01.08.2007",
+                    "end_data": "01.08.2012",
+                    "grade": 8.8
+                },
+                {
+                    "level": "masters",
+                    "name": "MIT",
+                    "start_date": "01.08.2015",
+                    "end_data": "01.08.2015",
+                    "grade": 9.35
+                }
+            ],
+            "experience": [
+                {
+                    "company": "MIT",
+                    "position": "Researcher",
+                    "start_date": "01.05.2015",
+                    "end_date": "01.06.2016"
+                }
+            ]
+        },
+        {
+            "name": "Julia Matvei",
+            "email": "jmatvei@gmail.com",
+            "phone": "+4555555555",
+            "date_of_birth": "10.11.1988",
+            "genre": "female",
+            "languages": ["English", "German"],
+            "languages_level": ["Experienced", "Beginner"],
+            "interested_companies": ["Google", "Amazon"],
+            "education":[
+                {
+                    "level": "highschool",
+                    "name": "Stanton College Preparatory School",
+                    "start_date": "01.08.2010",
+                    "end_data": "01.06.2014",
+                    "grade": 9.2
+                },
+                {
+                    "level": "college",
+                    "name": "University of Warwick",
+                    "start_date": "01.10.2014",
+                    "end_data": "01.06.2018",
+                    "grade": 9.4
+                },
+                {
+                    "level": "masters",
+                    "name": "University of Oxford",
+                    "start_date": "01.08.2018",
+                    "end_data": null,
+                    "grade": 10
+                }
+            ],
+            "experience": [
+                {
+                    "company": "NXP",
+                    "position": "SDE",
+                    "start_date": "01.05.2015",
+                    "end_date": "01.03.2017"
+                }
+            ]
+        },
+        {
+            "name": "Tamara Haci",
+            "email": "thaci@gmail.com",
+            "phone": "+4444444444",
+            "date_of_birth": "15.02.1988",
+            "genre": "make",
+            "languages": ["English"],
+            "languages_level": ["Experienced"],
+            "interested_companies": ["Google", "Amazon"],
+            "education":[
+                {
+                    "level": "highschool",
+                    "name": "Downingtown STEM Academy",
+                    "start_date": "01.09.2005",
+                    "end_data": "01.08.2009",
+                    "grade": 10
+                },
+                {
+                    "level": "college",
+                    "name": "Ecole polytechnique",
+                    "start_date": "01.08.2009",
+                    "end_data": "01.06.2014",
+                    "grade": 9.1
+                }
+            ],
+            "experience": [
+                {
+                    "company": "Microsoft",
+                    "position": "SDE",
+                    "start_date": "01.10.2015",
+                    "end_date": "01. 03.2016"
+                },
+                {
+                    "company": "JP Morgan",
+                    "position": "SDE",
+                    "start_date": "01.06.2016",
+                    "end_date": "01.11.2017"
+                },
+                {
+                    "company": "Bloomberg",
+                    "position": "SDE",
+                    "start_date": "01.05.2017",
+                    "end_date": "01.08.2018"
+                }
+            ]
+        },
+        {
+            "name": "Linette Spartak",
+            "email": "lspartak@gmail.com",
+            "phone": "+4444444444",
+            "date_of_birth": "05.08.1998",
+            "genre": "male",
+            "languages": ["English", "French", "Russian", "Portuguese"],
+            "languages_level": ["Experienced", "Experienced", "Advanced", "Beginner"],
+            "interested_companies": ["Google", "Amazon"],
+            "education":[
+                {
+                    "level": "highschool",
+                    "name": "Thomas Jefferson High School for Science and Technology",
+                    "start_date": "01.08.2014",
+                    "end_data": "01.06.2018",
+                    "grade": 8.9
+                },
+                {
+                    "level": "college",
+                    "name": "University of Manchester",
+                    "start_date": "01.08.2018",
+                    "end_data": null,
+                    "grade": 9.75
+                }
+            ],
+            "experience": [
+                {
+                    "company": "Luxoft",
+                    "position": "Intern SDE",
+                    "start_date": "01.05.2018",
+                    "end_date": "01.09.2018"
+                },
+                {
+                    "company": "Edenred Digital",
+                    "position": "SDE",
+                    "start_date": "01.11.2018",
+                    "end_date": "01.11.2019"
+                }
+            ]
+        }
+    ],
+    "managers": [
+        {
+            "name": "Sundar Pichai",
+            "email": "spichai@gmail.com",
+            "phone": "+4444444444",
+            "date_of_birth": "12.07.1972",
+            "genre": "male",
+            "languages": ["English", "French", "Indian"],
+            "languages_level": ["Experienced", "Experienced", "Experienced"],
+            "salary": 1,
+            "education":[
+                {
+                    "level": "highschool",
+                    "name": "Thomas Jefferson High School for Science and Technology",
+                    "start_date": "01.08.2000",
+                    "end_data": "01.06.2004",
+                    "grade": 8.9
+                },
+                {
+                    "level": "college",
+                    "name": "University of Manchester",
+                    "start_date": "01.08.2004",
+                    "end_data": "01.06.2008",
+                    "grade": 9.75
+                }
+            ],
+            "experience": [
+                {
+                    "company": "Google",
+                    "position": "CEO",
+                    "start_date": "01.05.2018",
+                    "end_date": null
+                }
+            ]
+        },
+        {
+            "name": "Jeff Bezos",
+            "email": "jbezos@amaon.com",
+            "phone": "+4444444444",
+            "date_of_birth": "12.01.1964",
+            "genre": "male",
+            "languages": ["English", "French", "German"],
+            "languages_level": ["Experienced", "Experienced", "Experienced"],
+            "salary": 1,
+            "education":[
+                {
+                    "level": "highschool",
+                    "name": "Thomas Jefferson High School for Science and Technology",
+                    "start_date": "01.08.1982",
+                    "end_data": "01.06.1986",
+                    "grade": 8.9
+                },
+                {
+                    "level": "college",
+                    "name": "Princeton University",
+                    "start_date": "01.08.1986",
+                    "end_data": "01.08.1990",
+                    "grade": 9.75
+                }
+            ],
+            "experience": [
+                {
+                    "company": "Amazon",
+                    "position": "CEO",
+                    "start_date": "05.06.1994",
+                    "end_date": null
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,182 @@
+{
+  "companies" : [
+    {
+      "name" : "Google",
+      "manager" : "Sundar Pichai",
+      "departments" : [
+        {
+          "name": "IT",
+          "employees" : [
+            {
+              "name" : "Rolland Lyla",
+              "friends" : ["Leyla Stacy", "Damian Bodhi"]
+            }
+          ],
+          "jobs" : [
+            {
+              "jobName" : "SoftDev",
+              "noPositions" : 1,
+              "wage" : 10000,
+              "minGrad" : 2002,
+              "maxGrad" : 2020,
+              "minExp" : 2,
+              "maxExp" : 6,
+              "minGPA" : 8,
+              "maxGPA" : null
+            },
+            {
+              "jobName" : "SoftDevIntern",
+              "noPositions" : 1,
+              "wage" : 5000,
+              "minGrad" : null,
+              "maxGrad" : null,
+              "minExp" : 0,
+              "maxExp" : 2,
+              "minGPA" : 9,
+              "maxGPA" : null
+            }
+          ]
+        },
+        {
+          "name": "Management",
+          "employees" : [
+            {
+              "name" : "Steward Goodwin",
+              "friends" : ["Julia Matvei"]
+            }
+          ]
+        },
+        {
+          "name": "Marketing",
+          "employees" : [
+            {
+              "name" : "Molly Rylie",
+              "friends" : []
+            },
+            {
+              "name" : "Bryson Reenie",
+              "friends" : ["Shana Addy", "Linette Spartak"]
+            }
+          ]
+        },
+        {
+          "name": "Finance",
+          "employees" : [
+            {
+              "name" : "Morley Denise",
+              "friends" : []
+            }
+          ]
+        }
+      ],
+      "recruiters" : [
+        {
+          "name": "Jonie Phillip",
+          "friends": ["Julia Matvei"]
+        },
+        {
+          "name": "Janine Woody",
+          "friends": ["Leyla Stacy"]
+        }
+      ]
+    },
+    {
+      "name" : "Amazon",
+      "manager" : "Jeff Bezos",
+      "departments" : [
+        {
+          "name": "IT",
+          "employees" : [
+            {
+              "name" : "Harmony Lorinda",
+              "friends" : []
+            }
+          ],
+          "jobs" : [
+            {
+              "jobName" : "SoftDev",
+              "noPositions" : 1,
+              "wage" : 12000,
+              "minGrad" : 2014,
+              "maxGrad" : 2020,
+              "minExp" : 1,
+              "maxExp" : null,
+              "minGPA" : 9,
+              "maxGPA" : null
+            },
+            {
+              "jobName" : "SoftDevIntern",
+              "noPositions" : 1,
+              "wage" : 6000,
+              "minGrad" : null,
+              "maxGrad" : null,
+              "minExp" : 0,
+              "maxExp" : 2,
+              "minGPA" : 9.35,
+              "maxGPA" : null
+            }
+          ]
+        },
+        {
+          "name": "Management",
+          "employees" : [
+            {
+              "name" : "Shana Addy",
+              "friends" : ["Darrell Lillie", "Bryson Reenie"]
+            }
+          ]
+        },
+        {
+          "name": "Marketing",
+          "employees" : [
+            {
+              "name" : "Leyla Stacy",
+              "friends" : ["Daniel Edmund", "Tamara Haci", "Rolland Lyla", "Janine Woody"]
+            },
+            {
+              "name" : "Bethney Kiara",
+              "friends" : []
+            }
+          ]
+        },
+        {
+          "name": "Finance",
+          "employees" : [
+            {
+              "name" : "Jarred Egbert",
+              "friends" : []
+            }
+          ]
+        }
+      ],
+      "recruiters" : [
+        {
+          "name": "Darrell Lillie",
+          "friends": ["Shana Addy"]
+        },
+        {
+          "name": "Damian Bodhi",
+          "friends": ["Rolland Lyla"]
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "name": "Daniel Edmund",
+      "friends": ["Leyla Stacy", "Julia Matvei"]
+    },
+    {
+      "name": "Julia Matvei",
+      "friends": ["Daniel Edmund", "Jonie Phillip", "Steward Goodwin"]
+    },
+    {
+      "name": "Tamara Haci",
+      "friends": ["Leyla Stacy", "Linette Spartak"]
+    },
+    {
+      "name": "Linette Spartak",
+      "friends": ["Tamara Haci", "Bryson Reenie"]
+    }
+  ]
+}
