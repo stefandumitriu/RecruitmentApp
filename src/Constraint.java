@@ -1,7 +1,7 @@
 public class Constraint {
-    int inf;
-    int sup;
-    Constraint(int inf, int sup) {
+    double inf;
+    double sup;
+    Constraint(double inf, double sup) {
         this.inf = inf;
         this.sup = sup;
     }

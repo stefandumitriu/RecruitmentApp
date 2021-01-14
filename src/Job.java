@@ -11,6 +11,17 @@ public class Job {
     ArrayList<User> applicants;
     int noPositions;
     int wage;
+    Job(String jobName, String company, Constraint gradYear, Constraint expYears, Constraint GPA, int noPositions, int wage) {
+        this.jobName = jobName;
+        this.company = company;
+        this.gradYear = gradYear;
+        this.expYears = expYears;
+        this.GPA = GPA;
+        this.noPositions = noPositions;
+        this.wage = wage;
+        isOpen = true;
+        applicants = new ArrayList<>();
+    }
 //    public void apply(User user) {
 //        Company c = Application.getCompany(company);
 //        HashMap<Recruiter, Integer> degrees = new HashMap<>();

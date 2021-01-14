@@ -21,7 +21,7 @@
               "maxGrad" : 2020,
               "minExp" : 2,
               "maxExp" : 6,
-              "minGPA" : 8,
+              "minGPA" : 8.00,
               "maxGPA" : null
             },
             {
@@ -32,7 +32,7 @@
               "maxGrad" : null,
               "minExp" : 0,
               "maxExp" : 2,
-              "minGPA" : 9,
+              "minGPA" : 9.00,
               "maxGPA" : null
             }
           ]
@@ -101,7 +101,7 @@
               "maxGrad" : 2020,
               "minExp" : 1,
               "maxExp" : null,
-              "minGPA" : 9,
+              "minGPA" : 9.00,
               "maxGPA" : null
             },
             {

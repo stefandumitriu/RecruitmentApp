@@ -1,6 +1,7 @@
 import org.json.*;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.*;
 import java.util.Arrays;
 
@@ -42,18 +43,61 @@ public class Test {
                     }
                     mainApp.getCompany(companyName).add( newEmp, mainApp.getCompany(companyName).departments.get(j));
                 }
+                if(department.keySet().contains("jobs")){
+                    JSONArray jobs = department.getJSONArray("jobs");
+                    for(int k = 0; k < jobs.length(); k++) {
+                        JSONObject job = (JSONObject) jobs.get(k);
+                        int minGrad = 0, maxGrad = 0, minExp = 0, maxExp = 0;
+                        double minGPA = 0, maxGPA = 0;
+                        String jobName, jobCompany;
+                        jobName = (String) job.get("jobName");
+                        jobCompany = companyName;
+                        int wage, noPositions;
+                        wage = (Integer) job.get("wage");
+                        noPositions = (Integer) job.get("noPositions");
+                        if(!job.get("minGrad").equals(null)) {
+                            minGrad = (int) job.get("minGrad");
+                        }
+                        else minGrad = Integer.MIN_VALUE;
+                        if(!job.get("maxGrad").equals(null)) {
+                            maxGrad = (int) job.get("maxGrad");
+                        }
+                        else maxGrad = Integer.MAX_VALUE;
+                        if(!job.get("minExp").equals(null)) {
+                            minExp = (int) job.get("minExp");
+                        }
+                        else minExp = Integer.MIN_VALUE;
+                        if(!job.get("maxExp").equals(null)) {
+                            maxExp = (int) job.get("maxExp");
+                        }
+                        else maxExp = Integer.MAX_VALUE;
+                        if(!job.get("minGPA").equals(null)) {
+                            minGPA =  ((BigDecimal) job.get("minGPA")).doubleValue();
+                        }
+                        else minGPA = Double.MIN_VALUE;
+                        if(!job.get("maxGPA").equals(null)) {
+                            maxGPA = (Double) job.get("maxGPA");
+                        }
+                        else maxGPA = Double.MAX_VALUE;
+                        mainApp.getCompany(companyName).departments.get(j).jobs.add(new Job(jobName, jobCompany, new Constraint(minGrad, maxGrad),
+                                new Constraint(minExp, maxExp), new Constraint(minGPA, maxGPA), noPositions, wage));
+                    }
+                }
             }
-            // Testing input for departments' employees + list_of_friends
-//            for(Department d : mainApp.getCompany(companyName).departments) {
-//                System.out.println(d.getClass().getName());
-//                for(Employee e : d.employees) {
-//                    System.out.println(e.resume.userInfo.getName() + " " + e.resume.userInfo.getSurname() + " has friends:");
-//                    for(Consumer c : e.friends) {
-//                        System.out.print(c.resume.userInfo.getName() + " " + c.resume.userInfo.getSurname() +", ");
-//                    }
-//                    System.out.println("");
-//                }
-//            }
+            // Testing input for departments' employees + list_of_friends + job creation
+            for(Department d : mainApp.getCompany(companyName).departments) {
+                System.out.println(d.getClass().getName());
+                for(Job test : d.jobs) {
+                    System.out.println(test.wage + " " + test.jobName);
+                }
+                for(Employee e : d.employees) {
+                    System.out.println(e.resume.userInfo.getName() + " " + e.resume.userInfo.getSurname() + " has friends:");
+                    for(Consumer c : e.friends) {
+                        System.out.print(c.resume.userInfo.getName() + " " + c.resume.userInfo.getSurname() +", ");
+                    }
+                    System.out.println("");
+                }
+            }
         }
     }
     public static void main(String[] args) throws IOException {
