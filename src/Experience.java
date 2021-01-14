@@ -8,7 +8,7 @@ public class Experience implements Comparable<Experience> {
     String department;
 
     Experience(LocalDate startYear, LocalDate endYear, String position, String company, String department) throws InvalidDatesException {
-        if(startYear.isAfter(endYear)) {
+        if(endYear != null && startYear.isAfter(endYear)) {
             throw new InvalidDatesException();
         }
         else {

@@ -4,6 +4,7 @@ import java.util.*;
 public abstract class Consumer {
     ArrayList<Consumer> friends;
     Resume resume;
+    Consumer() {}
     Consumer(String name, String surname, String email, String phone, String gender) {
         this.resume = new Resume(name, surname, email, phone, gender);
         friends = new ArrayList<>();

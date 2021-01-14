@@ -155,6 +155,9 @@ public class Test {
         String jsonStringConsumers = Files.readString(p_consumers);
         JSONObject content = new JSONObject(jsonStringConsumers);
         JSONArray employees = content.getJSONArray("employees");
+        JSONArray recruiters = content.getJSONArray("recruiters");
+        JSONArray usersObjectArray = content.getJSONArray("users");
+        JSONArray managers = content.getJSONArray("managers");
 
         ArrayList<Employee> employeeArrayList = new ArrayList<>();
         ArrayList<User> userArrayList = new ArrayList<>();
@@ -163,69 +166,158 @@ public class Test {
 
         for(Object employee : employees) {
             JSONObject employeeObject = (JSONObject) employee;
-            String[] name = ((String) employeeObject.get("name")).split(" ");
-            String email = (String) employeeObject.get("email");
-            String phone = (String) employeeObject.get("phone");
-            String gender = (String) employeeObject.get("genre");
-            int wage = (Integer) employeeObject.get("salary");
-            Employee e = new Employee(name[0], name[1], email, phone, gender);
-            e.wage = wage;
-            JSONArray languages = employeeObject.getJSONArray("languages");
-            JSONArray languages_level = employeeObject.getJSONArray("languages_level");
-            for(int i = 0; i < languages.length(); i++) {
-                e.resume.userInfo.addLanguage((String) languages.get(i), (String) languages_level.get(i));
-            }
-            employeeArrayList.add(e);
-            JSONArray educationArray = employeeObject.getJSONArray("education");
-            for(Object ed : educationArray) {
-                JSONObject edObject = (JSONObject) ed;
-                String institutionName = (String) edObject.get("name");
-                String level = (String) edObject.get("level");
-                double GPA;
-                if(edObject.get("grade") instanceof Integer) {
-                    GPA= ((Integer) edObject.get("grade")).doubleValue();
-                }
-                else
-                    GPA = ((BigDecimal) edObject.get("grade")).doubleValue();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-                LocalDate startYear = LocalDate.parse((String) edObject.get("start_date"), formatter);
-                LocalDate endYear;
-                if(!edObject.get("end_date").equals(null)) {
-                    endYear = LocalDate.parse((String) edObject.get("end_date"), formatter);
-                }
-                else
-                    endYear = LocalDate.now();
-                e.resume.education.add(new Education(startYear, endYear, institutionName, level, GPA));
-            }
-            JSONArray experienceArray = employeeObject.getJSONArray("experience");
-            for(Object ex : experienceArray) {
-                JSONObject exObject = (JSONObject) ex;
-                String companyName = (String) exObject.get("company");
-                String job = (String) exObject.get("position");
-                String department = (String) exObject.get("departament");
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-                LocalDate startYear = LocalDate.parse((String) exObject.get("start_date"), formatter);
-                LocalDate endYear;
-                if(!exObject.get("end_date").equals(null)) {
-                    endYear = LocalDate.parse((String) exObject.get("end_date"), formatter);
-                }
-                else
-                    endYear = LocalDate.now();
-                e.resume.experience.add(new Experience(startYear, endYear, job, companyName, department));
-            }
-            Collections.sort(e.resume.education);
-            Collections.sort(e.resume.experience);
+            Employee ref = new Employee();
+            Employee newEmp = (Employee) parseInformation(employeeObject, ref);
+            newEmp.wage = (Integer) employeeObject.get("salary");
+            employeeArrayList.add(newEmp);
         }
-        // Testing employee input from consumers.json
-//        for(Employee e : employeeArrayList) {
-//            System.out.println(e.resume.userInfo.getName() + " "+ e.resume.userInfo.getSurname());
-//            for(Education ed : e.resume.education) {
-//                System.out.println(ed.institution + " -> " + ed.level);
-//            }
-//            for(Experience ex : e.resume.experience) {
-//                System.out.println(ex.company + ": " + ex.startYear.getYear() + " -> " + ex.endYear.getYear());
-//            }
-//        }
+
+        for(Object recruiter : recruiters) {
+            JSONObject recruiterObject = (JSONObject) recruiter;
+            Recruiter ref = new Recruiter();
+            Recruiter newRec = (Recruiter) parseInformation(recruiterObject, ref);
+            recruiterArrayList.add(newRec);
+        }
+
+        for(Object user : usersObjectArray) {
+            JSONObject userObject = (JSONObject) user;
+            User ref = new User();
+            User newUser = (User) parseInformation(userObject, ref);
+            JSONArray prefCompanies = userObject.getJSONArray("interested_companies");
+            for(Object comp : prefCompanies) {
+                newUser.companiesInterest.add((String) comp);
+            }
+            userArrayList.add(newUser);
+        }
+        for(Object manager: managers) {
+            JSONObject managerObject = (JSONObject) manager;
+            Manager ref = new Manager();
+            Manager newMan = (Manager) parseInformation(managerObject, ref);
+            managerArrayList.add(newMan);
+        }
+        // Testing input from consumers.json
+        System.out.println("Employees:");
+        for(Employee e : employeeArrayList) {
+            System.out.println(e.resume.userInfo.getName() + " "+ e.resume.userInfo.getSurname());
+            for(Education ed : e.resume.education) {
+                System.out.println(ed.institution + " -> " + ed.level);
+            }
+            for(Experience ex : e.resume.experience) {
+                if(e.resume.experience.indexOf(ex) == 0) {
+                    System.out.println(ex.company + ": " + ex.startYear.getYear() + " -> " + ex.endYear.getYear()
+                            + " " + e.wage + "$");
+                }
+                else
+                    System.out.println(ex.company + ": " + ex.startYear.getYear() + " -> " + ex.endYear.getYear());
+            }
+        }
+        System.out.println("Recruiters:");
+        for(Recruiter e : recruiterArrayList) {
+            System.out.println(e.resume.userInfo.getName() + " "+ e.resume.userInfo.getSurname());
+            for(Education ed : e.resume.education) {
+                System.out.println(ed.institution + " -> " + ed.level);
+            }
+            for(Experience ex : e.resume.experience) {
+                System.out.println(ex.company + ": " + ex.startYear.getYear() + " -> " + ex.endYear.getYear());
+            }
+        }
+        System.out.println("Users:");
+        for(User e : userArrayList) {
+            System.out.println(e.resume.userInfo.getName() + " "+ e.resume.userInfo.getSurname());
+            System.out.println("Interested in: ");
+            for(String c : e.companiesInterest) {
+                System.out.print(c + ", ");
+            }
+            System.out.print("\n");
+            for(Education ed : e.resume.education) {
+                System.out.println(ed.institution + " -> " + ed.level);
+            }
+            for(Experience ex : e.resume.experience) {
+                System.out.println(ex.company + ": " + ex.startYear.getYear() + " -> " + ex.endYear.getYear());
+            }
+        }
+        System.out.println("Managers:");
+        for(Manager e : managerArrayList) {
+            System.out.println(e.resume.userInfo.getName() + " "+ e.resume.userInfo.getSurname());
+            for(Education ed : e.resume.education) {
+                System.out.println(ed.institution + " -> " + ed.level);
+            }
+            for(Experience ex : e.resume.experience) {
+                System.out.println(ex.company + ": " + ex.startYear.getYear() + " -> " + ex.endYear.getYear());
+            }
+        }
+    }
+    public static Consumer parseInformation(JSONObject consumerObject, Object refObject) throws InvalidDatesException {
+        Consumer c;
+        String[] name = ((String) consumerObject.get("name")).split(" ");
+        String email = (String) consumerObject.get("email");
+        String phone = (String) consumerObject.get("phone");
+        String gender = (String) consumerObject.get("genre");
+        if(refObject instanceof Recruiter) {
+            c = new Recruiter(name[0], name[1], email, phone, gender);
+        }
+        else if(refObject instanceof Manager) {
+            c = new Manager(name[0], name[1], email, phone, gender);
+        }
+        else if(refObject instanceof Employee) {
+            c = new Employee(name[0], name[1], email, phone, gender);
+        }
+        else {
+            c = new User(name[0], name[1], email, phone, gender);
+        }
+        JSONArray languages = consumerObject.getJSONArray("languages");
+        JSONArray languages_level = consumerObject.getJSONArray("languages_level");
+        for(int i = 0; i < languages.length(); i++) {
+            c.resume.userInfo.addLanguage((String) languages.get(i), (String) languages_level.get(i));
+        }
+        JSONArray educationArray = consumerObject.getJSONArray("education");
+        for(Object ed : educationArray) {
+            JSONObject edObject = (JSONObject) ed;
+            String institutionName = (String) edObject.get("name");
+            String level = (String) edObject.get("level");
+            double GPA;
+            if(edObject.get("grade") instanceof Integer) {
+                GPA= ((Integer) edObject.get("grade")).doubleValue();
+            }
+            else
+                GPA = ((BigDecimal) edObject.get("grade")).doubleValue();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            LocalDate startYear = LocalDate.parse((String) edObject.get("start_date"), formatter);
+            LocalDate endYear;
+            if(!edObject.get("end_date").equals(null)) {
+                endYear = LocalDate.parse((String) edObject.get("end_date"), formatter);
+            }
+            else
+                endYear = LocalDate.now();
+            c.resume.education.add(new Education(startYear, endYear, institutionName, level, GPA));
+        }
+        JSONArray experienceArray = consumerObject.getJSONArray("experience");
+        for(Object ex : experienceArray) {
+            JSONObject exObject = (JSONObject) ex;
+            String companyName = (String) exObject.get("company");
+            String job = (String) exObject.get("position");
+            String department = null;
+            if(exObject.keySet().contains("departament")) {
+                department = (String) exObject.get("departament");
+            }
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            LocalDate startYear = LocalDate.parse((String) exObject.get("start_date"), formatter);
+            LocalDate endYear;
+            if(!exObject.get("end_date").equals(null)) {
+                endYear = LocalDate.parse((String) exObject.get("end_date"), formatter);
+            }
+            else
+                endYear = LocalDate.now();
+            c.resume.experience.add(new Experience(startYear, endYear, job, companyName, department));
+        }
+        if(c instanceof Recruiter) {
+            for(Experience ex : c.resume.experience) {
+                ex.department = "IT";
+            }
+        }
+        Collections.sort(c.resume.education);
+        Collections.sort(c.resume.experience);
+        return c;
     }
     public static void main(String[] args) throws IOException, InvalidDatesException {
         Test.Parser();

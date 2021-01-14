@@ -2,8 +2,10 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class User extends Consumer{
+    User() {}
     User(String name, String surname, String email, String phone, String gender) {
         super(name, surname, email, phone, gender);
+        companiesInterest = new ArrayList<>();
     }
     ArrayList<String> companiesInterest;
     public Employee convert() {
