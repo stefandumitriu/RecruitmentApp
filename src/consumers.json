@@ -14,14 +14,14 @@
                     "level": "highschool",
                     "name": "Thomas Jefferson High School for Science and Technology",
                     "start_date": "01.08.2000",
-                    "end_data": "01.06.2004",
+                    "end_date": "01.06.2004",
                     "grade": 9.75
                 },
                 {
                     "level": "college",
                     "name": "MIT",
                     "start_date": "01.08.2004",
-                    "end_data": "01.06.2008",
+                    "end_date": "01.06.2008",
                     "grade": 9.00
                 }
             ],
@@ -56,14 +56,14 @@
                     "level": "highschool",
                     "name": "Heidelberg American High School",
                     "start_date": "01.08.2010",
-                    "end_data": "01.06.2014",
+                    "end_date": "01.06.2014",
                     "grade": 8.87
                 },
                 {
                     "level": "college",
                     "name": "University of Munich",
                     "start_date": "01.08.2014",
-                    "end_data": "01.06.2018",
+                    "end_date": "01.06.2018",
                     "grade": 9.65
                 }
             ],
@@ -91,14 +91,14 @@
                     "level": "highschool",
                     "name": "Kings High School",
                     "start_date": "01.08.2015",
-                    "end_data": "01.06.2019",
+                    "end_date": "01.06.2019",
                     "grade": 8.87
                 },
                 {
                     "level": "college",
                     "name": "King’s College",
                     "start_date": "01.10.2019",
-                    "end_data": null,
+                    "end_date": null,
                     "grade": 9.89
                 }
             ],
@@ -126,14 +126,14 @@
                     "level": "highschool",
                     "name": "Heidelberg American High School ",
                     "start_date": "01.08.2002",
-                    "end_data": "01.06.2006",
+                    "end_date": "01.06.2006",
                     "grade": 9.87
                 },
                 {
                     "level": "college",
                     "name": "University of Oxford",
                     "start_date": "01.08.2006",
-                    "end_data": "01.06.2009",
+                    "end_date": "01.06.2009",
                     "grade": 8.75
                 }
             ],
@@ -143,7 +143,7 @@
                     "position": "Intern",
                     "departament": "Finance",
                     "start_date": "01.04.2009",
-                    "end_date": " 01.07.2011"
+                    "end_date": "01.07.2011"
                 },
                 {
                     "company": "Goldman Sachs",
@@ -175,14 +175,14 @@
                     "level": "highschool",
                     "name": "Aquinas High School ",
                     "start_date": "01.10.2011",
-                    "end_data": "01.07.2015",
+                    "end_date": "01.07.2015",
                     "grade": 7.80
                 },
                 {
                     "level": "college",
                     "name": "Stanford University",
                     "start_date": "01.08.2015",
-                    "end_data": "01.07.2019",
+                    "end_date": "01.07.2019",
                     "grade": 9.25
                 }
             ],
@@ -210,14 +210,14 @@
                     "level": "highschool",
                     "name": "ICS Paris",
                     "start_date": "01.08.2005",
-                    "end_data": "01.06.2009",
+                    "end_date": "01.06.2009",
                     "grade": 8.9
                 },
                 {
                     "level": "college",
                     "name": "Ecole Polytechnique",
                     "start_date": "01.08.2009",
-                    "end_data": "01.06.2013",
+                    "end_date": "01.06.2013",
                     "grade": 9.35
                 }
             ],
@@ -266,14 +266,14 @@
                     "level": "highschool",
                     "name": "Tornados High School",
                     "start_date": "01.08.2010",
-                    "end_data": "01.06.2014",
+                    "end_date": "01.06.2014",
                     "grade": 8.05
                 },
                 {
                     "level": "college",
                     "name": "University of Groningen",
                     "start_date": "01.10.2014",
-                    "end_data": "01.07.2018",
+                    "end_date": "01.07.2018",
                     "grade": 7.6
                 }
             ],
@@ -301,14 +301,14 @@
                     "level": "highschool",
                     "name": "Kspace International School",
                     "start_date": "01.08.1998",
-                    "end_data": "01.07.2002",
+                    "end_date": "01.07.2002",
                     "grade": 9.87
                 },
                 {
                     "level": "college",
                     "name": "University of Oxford",
                     "start_date": "01.08.2002",
-                    "end_data": "01.06.2006",
+                    "end_date": "01.06.2006",
                     "grade": 9.93
                 }
             ],
@@ -357,14 +357,14 @@
                     "level": "highschool",
                     "name": "National High School of Berlin",
                     "start_date": "01.08.2014",
-                    "end_data": "01.06.2018",
+                    "end_date": "01.06.2018",
                     "grade": 10
                 },
                 {
                     "level": "college",
                     "name": "Jacobs University",
                     "start_date": "01.10.2018",
-                    "end_data": null,
+                    "end_date": null,
                     "grade": 9.45
                 }
             ],
@@ -392,14 +392,14 @@
                     "level": "highschool",
                     "name": "Jamaica Plain High School",
                     "start_date": "01.08.2001",
-                    "end_data": "01.06.2005",
+                    "end_date": "01.06.2005",
                     "grade": 9.5
                 },
                 {
                     "level": "college",
                     "name": "Harvard",
                     "start_date": "01.08.2006",
-                    "end_data": "01.06.2011",
+                    "end_date": "01.06.2011",
                     "grade": 7.65
                 }
             ],
@@ -436,14 +436,14 @@
                     "level": "highschool",
                     "name": "High School of Brussels",
                     "start_date": "01.08.2000",
-                    "end_data": "01.06.2004",
+                    "end_date": "01.06.2004",
                     "grade": 9.6
                 },
                 {
                     "level": "college",
                     "name": "University of Oxford",
                     "start_date": "01.08.2004",
-                    "end_data": "01.06.2008",
+                    "end_date": "01.06.2008",
                     "grade": 8.8
                 }
             ],
@@ -476,14 +476,14 @@
                     "level": "highschool",
                     "name": "Thomas Jefferson High School for Science and Technology",
                     "start_date": "01.08.2006",
-                    "end_data": "01.06.2010",
+                    "end_date": "01.06.2010",
                     "grade": 9.75
                 },
                 {
                     "level": "college",
                     "name": "MIT",
                     "start_date": "01.08.2010",
-                    "end_data": "01.06.2014",
+                    "end_date": "01.06.2014",
                     "grade": 9.8
                 }
             ],
@@ -510,14 +510,14 @@
                     "level": "highschool",
                     "name": "Crestview High School",
                     "start_date": "01.08.2009",
-                    "end_data": "01.06.2013",
+                    "end_date": "01.06.2013",
                     "grade": 8.75
                 },
                 {
                     "level": "college",
                     "name": "Bristol University",
                     "start_date": "01.08.2013",
-                    "end_data": "01.06.2017",
+                    "end_date": "01.06.2017",
                     "grade": 7.8
                 }
             ],
@@ -544,14 +544,14 @@
                     "level": "highschool",
                     "name": "Enterprise School",
                     "start_date": "01.08.2007",
-                    "end_data": "01.06.2011",
+                    "end_date": "01.06.2011",
                     "grade": 9.9
                 },
                 {
                     "level": "college",
                     "name": "MIT",
                     "start_date": "01.06.2011",
-                    "end_data": "01.07.2014",
+                    "end_date": "01.07.2014",
                     "grade": 9.65
                 }
             ],
@@ -586,21 +586,21 @@
                     "level": "highschool",
                     "name": "Gilbert Classical Academy",
                     "start_date": "01.09.2003",
-                    "end_data": "01.06.2011",
+                    "end_date": "01.06.2011",
                     "grade": 6.75
                 },
                 {
                     "level": "college",
                     "name": "MIT",
                     "start_date": "01.08.2007",
-                    "end_data": "01.08.2012",
+                    "end_date": "01.08.2012",
                     "grade": 8.8
                 },
                 {
                     "level": "masters",
                     "name": "MIT",
                     "start_date": "01.08.2015",
-                    "end_data": "01.08.2015",
+                    "end_date": "01.08.2015",
                     "grade": 9.35
                 }
             ],
@@ -627,21 +627,21 @@
                     "level": "highschool",
                     "name": "Stanton College Preparatory School",
                     "start_date": "01.08.2010",
-                    "end_data": "01.06.2014",
+                    "end_date": "01.06.2014",
                     "grade": 9.2
                 },
                 {
                     "level": "college",
                     "name": "University of Warwick",
                     "start_date": "01.10.2014",
-                    "end_data": "01.06.2018",
+                    "end_date": "01.06.2018",
                     "grade": 9.4
                 },
                 {
                     "level": "masters",
                     "name": "University of Oxford",
                     "start_date": "01.08.2018",
-                    "end_data": null,
+                    "end_date": null,
                     "grade": 10
                 }
             ],
@@ -668,14 +668,14 @@
                     "level": "highschool",
                     "name": "Downingtown STEM Academy",
                     "start_date": "01.09.2005",
-                    "end_data": "01.08.2009",
+                    "end_date": "01.08.2009",
                     "grade": 10
                 },
                 {
                     "level": "college",
                     "name": "Ecole polytechnique",
                     "start_date": "01.08.2009",
-                    "end_data": "01.06.2014",
+                    "end_date": "01.06.2014",
                     "grade": 9.1
                 }
             ],
@@ -714,14 +714,14 @@
                     "level": "highschool",
                     "name": "Thomas Jefferson High School for Science and Technology",
                     "start_date": "01.08.2014",
-                    "end_data": "01.06.2018",
+                    "end_date": "01.06.2018",
                     "grade": 8.9
                 },
                 {
                     "level": "college",
                     "name": "University of Manchester",
                     "start_date": "01.08.2018",
-                    "end_data": null,
+                    "end_date": null,
                     "grade": 9.75
                 }
             ],
@@ -756,14 +756,14 @@
                     "level": "highschool",
                     "name": "Thomas Jefferson High School for Science and Technology",
                     "start_date": "01.08.2000",
-                    "end_data": "01.06.2004",
+                    "end_date": "01.06.2004",
                     "grade": 8.9
                 },
                 {
                     "level": "college",
                     "name": "University of Manchester",
                     "start_date": "01.08.2004",
-                    "end_data": "01.06.2008",
+                    "end_date": "01.06.2008",
                     "grade": 9.75
                 }
             ],
@@ -790,14 +790,14 @@
                     "level": "highschool",
                     "name": "Thomas Jefferson High School for Science and Technology",
                     "start_date": "01.08.1982",
-                    "end_data": "01.06.1986",
+                    "end_date": "01.06.1986",
                     "grade": 8.9
                 },
                 {
                     "level": "college",
                     "name": "Princeton University",
                     "start_date": "01.08.1986",
-                    "end_data": "01.08.1990",
+                    "end_date": "01.08.1990",
                     "grade": 9.75
                 }
             ],

@@ -1,6 +1,6 @@
 import java.time.LocalDate;
 
-public class Education implements Comparable {
+public class Education implements Comparable<Education> {
     LocalDate startYear;
     LocalDate gradYear;
     String institution;
@@ -20,17 +20,17 @@ public class Education implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(Education o) {
         int res;
         if(gradYear == null) {
-            res = -this.startYear.compareTo(((Education) o).startYear);
+            res = -this.startYear.compareTo((o).startYear);
         }
         else {
-            res = this.gradYear.compareTo(((Education) o).gradYear);
+            res = this.gradYear.compareTo((o).gradYear);
         }
         if(res != 0)
             return -res;
-        else return -this.gradGPA.compareTo(((Education) o).gradGPA);
+        else return -this.gradGPA.compareTo((o).gradGPA);
     }
 }
 class InvalidDatesException extends Exception {
