@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Application{
     private ArrayList<Company> companies;
-    private ArrayList<User> users;
+    ArrayList<User> users;
     private ArrayList<String> company_names;
 
     Application() {

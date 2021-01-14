@@ -84,8 +84,41 @@ public class Test {
                     }
                 }
             }
-            // Testing input for departments' employees + list_of_friends + job creation
-            for(Department d : mainApp.getCompany(companyName).departments) {
+            JSONArray recruiters = company.getJSONArray("recruiters");
+            for(Object rec : recruiters) {
+                JSONArray recFriends = ((JSONObject) rec).getJSONArray("friends");
+                String[] recName = ((String)((JSONObject) rec).get("name")).split(" ");
+                Recruiter newRec = new Recruiter(recName[0], recName[1], null, null, null);
+                for(Object f : recFriends) {
+                    String[] friendName = ((String) f).split(" ");
+                    newRec.add(new User(friendName[0], friendName[1], null, null, null));
+                }
+                mainApp.getCompany(companyName).recruiters.add(newRec);
+            }
+        }
+        JSONArray users = o.getJSONArray("users");
+        for(Object user : users) {
+            String[] userName = ((String)((JSONObject) user).get("name")).split(" ");
+            User newUser = new User(userName[0], userName[1], null, null, null);
+            JSONArray friends = ((JSONObject) user).getJSONArray("friends");
+            for(Object f : friends) {
+                String[] friendName = ((String) f).split(" ");
+                newUser.add(new User(friendName[0], friendName[1], null, null, null));
+            }
+            mainApp.add(newUser);
+        }
+        // Testing input file parsing
+        for(Company company : mainApp.getCompanies()) {
+            System.out.println(company.name);
+            System.out.println("Recruiters:");
+            for(Recruiter r : company.recruiters) {
+                System.out.println(r.resume.userInfo.getName() + " " + r.resume.userInfo.getSurname() + " has friends:");
+                for(Consumer c : r.friends) {
+                    System.out.print(c.resume.userInfo.getName() + " " + c.resume.userInfo.getSurname() +", ");
+                }
+                System.out.println("");
+            }
+            for(Department d : company.departments) {
                 System.out.println(d.getClass().getName());
                 for(Job test : d.jobs) {
                     System.out.println(test.wage + " " + test.jobName);
@@ -98,6 +131,14 @@ public class Test {
                     System.out.println("");
                 }
             }
+        }
+        System.out.println("Users:");
+        for(User u : mainApp.users) {
+            System.out.println(u.resume.userInfo.getName() + " " + u.resume.userInfo.getSurname() + " has friends:");
+            for(Consumer c : u.friends) {
+                System.out.print(c.resume.userInfo.getName() + " " + c.resume.userInfo.getSurname() +", ");
+            }
+            System.out.println("");
         }
     }
     public static void main(String[] args) throws IOException {
