@@ -140,6 +140,22 @@ public class Test {
             }
             System.out.println("");
         }
+        /*
+        *
+        *
+        *
+        *
+        *
+         */
+        Path p_consumers = Paths.get("C:\\Users\\stefan.dumitriu\\Desktop\\tema_poo\\src\\consumers.json");
+        String jsonStringConsumers = Files.readString(p_consumers);
+        JSONObject content = new JSONObject(jsonStringConsumers);
+        JSONArray employees = content.getJSONArray("employees");
+        for(Object employee : employees) {
+            Object employeeObject = (JSONObject) employee;
+
+        }
+
     }
     public static void main(String[] args) throws IOException {
         Test.Parser();
