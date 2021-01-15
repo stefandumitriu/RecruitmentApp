@@ -21,7 +21,7 @@ public class Job {
         applicants = new ArrayList<>();
     }
     public void apply(User user) {
-        Company c = Application.getCompany(company);
+        Company c = Application.getInstance().getCompany(company);
         HashMap<Recruiter, Integer> degrees = new HashMap<>();
         assert c != null;
         for(Recruiter r : c.recruiters) {

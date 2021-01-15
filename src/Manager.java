@@ -31,11 +31,11 @@ public class Manager extends Employee{
             User newEmp = (User) validReq.get(i).getValue1();
             i++;
             int unemployed = 0;
-            for(User u : Application.users) {
+            for(User u : Application.getInstance().users) {
                 if(newEmp.resume.userInfo.getName().equals(u.resume.userInfo.getName()) &&
                         newEmp.resume.userInfo.getSurname().equals(u.resume.userInfo.getSurname())) {
                     unemployed = 1;
-                    Application.users.remove(u);
+                    Application.getInstance().users.remove(u);
                     for(Request r : applications) {
                         if(((User) r.getValue1()).resume.userInfo.getSurname().equals(newEmp.resume.userInfo.getSurname())) {
                             applications.remove(r);
@@ -48,8 +48,8 @@ public class Manager extends Employee{
             if(unemployed == 1) {
                 job.noPositions--;
                 Employee e = newEmp.convert();
-                e.company = Application.getCompany(this.company).name;
-                Application.getCompany(this.company).departments.get(0).employees.add(e);
+                e.company = Application.getInstance().getCompany(this.company).name;
+                Application.getInstance().getCompany(this.company).departments.get(0).employees.add(e);
                 System.out.println(e.resume.userInfo.getName() + " " + e.resume.userInfo.getSurname() + " was hired @" + e.company +
                         " as a " + job.jobName);
             }

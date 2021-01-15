@@ -1,22 +1,27 @@
 import java.util.ArrayList;
 
 public class Application{
-    static private ArrayList<Company> companies;
-    static ArrayList<User> users;
-    static ArrayList<Consumer> consumers;
-    private ArrayList<String> company_names;
+    private static Application applicationInstance = null;
+    ArrayList<Company> companies;
+    ArrayList<User> users;
+    ArrayList<Consumer> consumers;
 
-    Application() {
+    private Application() {
         companies = new ArrayList<>();
         users = new ArrayList<>();
-        company_names = new ArrayList<>();
         consumers = new ArrayList<>();
+    }
+    public static Application getInstance() {
+        if(applicationInstance == null) {
+            applicationInstance = new Application();
+        }
+        return applicationInstance;
     }
     public ArrayList<Company> getCompanies() {
         return companies;
     };
-    static public Company getCompany(String name) {
-        for(Company c : Application.companies) {
+    public Company getCompany(String name) {
+        for(Company c : Application.getInstance().companies) {
             if(c.name.equals(name))
                 return c;
         }
@@ -45,9 +50,5 @@ public class Application{
             return true;
         }
         return false;
-    }
-
-    public ArrayList<Job> getJobs(ArrayList<String> companies) {
-        return null;
     }
 }

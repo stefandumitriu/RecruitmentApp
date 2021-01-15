@@ -34,7 +34,7 @@ public abstract class Consumer {
             }
             else return -1;
         });
-        for(Consumer c : Application.consumers) {
+        for(Consumer c : Application.getInstance().consumers) {
             if(c != this) {
                 distanceMap.put(c, Integer.MAX_VALUE);
             }
@@ -78,7 +78,7 @@ public abstract class Consumer {
     }
 
     static public Consumer searchByName(String name) {
-        for(Consumer c : Application.consumers) {
+        for(Consumer c : Application.getInstance().consumers) {
             if(c.resume.userInfo.getSurname().equals(name)) {
                 return c;
             }

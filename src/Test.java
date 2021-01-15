@@ -15,7 +15,7 @@ public class Test {
         String jsonStringInput = Files.readString(p_input);
         JSONObject o = new JSONObject(jsonStringInput);
         JSONArray companies = o.getJSONArray("companies");
-        Application mainApp = new Application();
+        Application mainApp = Application.getInstance();
         for(int i = 0; i < companies.length(); i++) {
             JSONObject company = companies.getJSONObject(i);
             String[] managerName = ((String) company.get("manager")).split("\\s+");
@@ -137,7 +137,7 @@ public class Test {
             Employee newEmp = (Employee) parseInformation(employeeObject, ref);
             newEmp.wage = (Integer) employeeObject.get("salary");
             employeeArrayList.add(newEmp);
-            Application.consumers.add(newEmp);
+            Application.getInstance().consumers.add(newEmp);
         }
 
         for(Object recruiter : recruiters) {
@@ -145,7 +145,7 @@ public class Test {
             Recruiter ref = new Recruiter();
             Recruiter newRec = (Recruiter) parseInformation(recruiterObject, ref);
             recruiterArrayList.add(newRec);
-            Application.consumers.add(newRec);
+            Application.getInstance().consumers.add(newRec);
         }
 
         for(Object user : usersObjectArray) {
@@ -157,14 +157,14 @@ public class Test {
                 newUser.companiesInterest.add((String) comp);
             }
             userArrayList.add(newUser);
-            Application.consumers.add(newUser);
+            Application.getInstance().consumers.add(newUser);
         }
         for(Object manager: managers) {
             JSONObject managerObject = (JSONObject) manager;
             Manager ref = new Manager();
             Manager newMan = (Manager) parseInformation(managerObject, ref);
             managerArrayList.add(newMan);
-            Application.consumers.add(newMan);
+            Application.getInstance().consumers.add(newMan);
         }
         Application newApp = mergeInformation(mainApp, employeeArrayList, recruiterArrayList, managerArrayList, userArrayList);
         // Testing data
@@ -178,6 +178,7 @@ public class Test {
             for(Experience ex : c.manager.resume.experience) {
                 System.out.println(ex.company + ": " + ex.startYear.getYear() + " -> " + ex.endYear.getYear());
             }
+            System.out.print("Friends: ");
             for(Consumer f : c.manager.friends) {
                 if(c.manager.friends.indexOf(f) == c.manager.friends.size() - 1) {
                     System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + "\n");
@@ -202,6 +203,7 @@ public class Test {
                         else
                             System.out.println(ex.company + ": " + ex.startYear.getYear() + " -> " + ex.endYear.getYear());
                     }
+                    System.out.print("Friends: ");
                     for(Consumer f : e.friends) {
                         if(e.friends.indexOf(f) == e.friends.size() - 1) {
                             System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + "\n\n");
@@ -225,6 +227,7 @@ public class Test {
                 for(Experience ex : e.resume.experience) {
                     System.out.println(ex.company + ": " + ex.startYear.getYear() + " -> " + ex.endYear.getYear());
                 }
+                System.out.print("Friends: ");
                 for(Consumer f : e.friends) {
                     if(e.friends.indexOf(f) == e.friends.size() - 1) {
                         System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + "\n\n");
@@ -247,7 +250,7 @@ public class Test {
                 System.out.println(ex.company + ": " + ex.startYear.getYear() + " -> " + ex.endYear.getYear());
                 yearsOfExp += (int) ex.startYear.until(ex.endYear, ChronoUnit.MONTHS);
             }
-            System.out.println((int) Math.ceil(yearsOfExp / 12.0));
+            System.out.print("Friends: ");
             for(Consumer f : e.friends) {
                 if(e.friends.indexOf(f) == e.friends.size() - 1) {
                     System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + "\n\n");
@@ -258,7 +261,7 @@ public class Test {
         }
         for(User u : newApp.users) {
             for(String company : u.companiesInterest) {
-                for(Job j : Application.getCompany(company).departments.get(0).jobs) {
+                for(Job j : Application.getInstance().getCompany(company).departments.get(0).jobs) {
                     j.apply(u);
                 }
             }
