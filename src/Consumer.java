@@ -50,7 +50,12 @@ public abstract class Consumer {
     }
 
     public Integer getGraduationYear() {
-        return resume.education.get(0).gradYear.getYear();
+        for(Education ed : resume.education) {
+            if(ed.level.equals("college")) {
+                return ed.gradYear.getYear();
+            }
+        }
+        return null;
     }
 
     public Double meanGPA() {

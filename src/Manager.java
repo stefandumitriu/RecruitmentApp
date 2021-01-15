@@ -5,6 +5,8 @@ public class Manager extends Employee{
     Manager(){}
     Manager(String name, String surname, String email, String phone, String gender) {
         super(name, surname, email, phone, gender);
+        applications = new ArrayList<>();
+        validReq = new ArrayList<>();
     }
     ArrayList<Request<Job, Consumer>> applications;
     ArrayList<Request<Job, Consumer>> validReq;
@@ -21,23 +23,39 @@ public class Manager extends Employee{
                 return -1;
             else return 1;
         });
-        for(int i = 0; i < job.noPositions; i++) {
+        int i = 0;
+        while(job.noPositions != 0) {
+            if(i == validReq.size()) {
+                break;
+            }
             User newEmp = (User) validReq.get(i).getValue1();
+            i++;
             int unemployed = 0;
             for(User u : Application.users) {
                 if(newEmp.resume.userInfo.getName().equals(u.resume.userInfo.getName()) &&
                         newEmp.resume.userInfo.getSurname().equals(u.resume.userInfo.getSurname())) {
                     unemployed = 1;
                     Application.users.remove(u);
+                    for(Request r : applications) {
+                        if(((User) r.getValue1()).resume.userInfo.getSurname().equals(newEmp.resume.userInfo.getSurname())) {
+                            applications.remove(r);
+                            break;
+                        }
+                    }
                     break;
                 }
             }
             if(unemployed == 1) {
-                Application.getCompany(this.company).departments.get(0).employees.add(newEmp.convert());
+                job.noPositions--;
+                Employee e = newEmp.convert();
+                e.company = Application.getCompany(this.company).name;
+                Application.getCompany(this.company).departments.get(0).employees.add(e);
+                System.out.println(e.resume.userInfo.getName() + " " + e.resume.userInfo.getSurname() + " was hired @" + e.company +
+                        " as a " + job.jobName);
             }
         }
         job.noPositions = 0;
         job.isOpen = false;
-        applications.clear();;
+        validReq.clear();
     }
 }

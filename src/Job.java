@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Job {
     String jobName;
@@ -22,20 +23,23 @@ public class Job {
         isOpen = true;
         applicants = new ArrayList<>();
     }
-//    public void apply(User user) {
-//        Company c = Application.getCompany(company);
-//        HashMap<Recruiter, Integer> degrees = new HashMap<>();
-//        assert c != null;
-//        for(Recruiter r : c.recruiters) {
-//            degrees.put(r, user.getDegreeInFriendship(r));
+    public void apply(User user) {
+        Company c = Application.getCompany(company);
+        HashMap<Recruiter, Integer> degrees = new HashMap<>();
+        assert c != null;
+        for(Recruiter r : c.recruiters) {
+            degrees.put(r, user.getDegreeInFriendship(r));
+        }
+        for(int i : degrees.values()) {
+            System.out.print(i + " ");
+        }
+        HashMap<Recruiter, Integer> sortedMap = degrees.entrySet().stream().sorted(Map.Entry.comparingByValue())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, HashMap::new));
+        System.out.println("");
+//        if(isOpen && meetsRequirments(user)) {
+//            correctRecruiter.evaluate(this, user);
 //        }
-//        ArrayList<Integer> recruiterScore = (ArrayList<Integer>) degrees.values();
-//        recruiterScore.sort(null);
-//        Integer getRecruiterValue = recruiterScore.get(recruiterScore.size() - 1);
-//        Recruiter correctRecruiter = (Recruiter) degrees.entrySet().stream().filter(entry -> getRecruiterValue.equals(entry.getValue())).map(Map.Entry::getKey);
-//        int score = correctRecruiter.evaluate(this, user);
-//
-//    }
+    }
 
     public boolean meetsRequirments(User user) {
         int yearsOfExp = 0;

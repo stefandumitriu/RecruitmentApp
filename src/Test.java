@@ -234,6 +234,18 @@ public class Test {
                 System.out.println(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + ", ");
             }
         }
+        for(User u : newApp.users) {
+            for(String company : u.companiesInterest) {
+                for(Job j : Application.getCompany(company).departments.get(0).jobs) {
+                    j.apply(u);
+                }
+            }
+        }
+        for(Company c : mainApp.getCompanies()) {
+            for(Job j : c.departments.get(0).jobs) {
+                c.manager.process(j);
+            }
+        }
     }
     public static Application mergeInformation(Application mainApp, ArrayList<Employee> employees, ArrayList<Recruiter> recruiters,
                                         ArrayList<Manager> managers, ArrayList<User> users) {
@@ -243,6 +255,7 @@ public class Test {
             for(Manager m : managers) {
                 if(m.resume.userInfo.getName().equals(c.manager.resume.userInfo.getName()) &&
                         m.resume.userInfo.getSurname().equals(c.manager.resume.userInfo.getSurname())) {
+                    m.company = c.name;
                     c.manager = m;
                     break;
                 }
