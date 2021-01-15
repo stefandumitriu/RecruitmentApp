@@ -262,8 +262,8 @@ public class Test {
                 }
                 d.employees = new ArrayList<>(modifiedE);
             }
+            ArrayList<Recruiter> modifiedR = new ArrayList<>();
             for(Recruiter r : c.recruiters) {
-                ArrayList<Recruiter> modifiedR = new ArrayList<>();
                 for(Recruiter rConsumers : recruiters) {
                     if(r.resume.userInfo.getName().equals(rConsumers.resume.userInfo.getName()) &&
                             r.resume.userInfo.getSurname().equals(rConsumers.resume.userInfo.getSurname())) {
@@ -276,8 +276,8 @@ public class Test {
                 c.recruiters = new ArrayList<>(modifiedR);
             }
         }
+        ArrayList<User> modifiedU = new ArrayList<>();
         for(User u : app.users) {
-            ArrayList<User> modifiedU = new ArrayList<>();
             for(User uConsumers : users) {
                 if(u.resume.userInfo.getName().equals(uConsumers.resume.userInfo.getName()) &&
                         u.resume.userInfo.getSurname().equals(uConsumers.resume.userInfo.getSurname())) {

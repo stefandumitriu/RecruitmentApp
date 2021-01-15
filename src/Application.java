@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 public class Application{
-    private ArrayList<Company> companies;
-    ArrayList<User> users;
+    static private ArrayList<Company> companies;
+    static ArrayList<User> users;
     private ArrayList<String> company_names;
 
     Application() {
@@ -13,8 +13,8 @@ public class Application{
     public ArrayList<Company> getCompanies() {
         return companies;
     };
-    public Company getCompany(String name) {
-        for(Company c : getCompanies()) {
+    static public Company getCompany(String name) {
+        for(Company c : Application.companies) {
             if(c.name.equals(name))
                 return c;
         }

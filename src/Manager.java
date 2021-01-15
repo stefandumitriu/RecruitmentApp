@@ -10,7 +10,7 @@ public class Manager extends Employee{
     ArrayList<Request<Job, Consumer>> validReq;
     public void process(Job job) {
         for(Request<Job, Consumer> r: applications) {
-            if(r.getKey() == job) {
+            if(r.getKey().jobName.equals(job.jobName)) {
                 validReq.add(r);
             }
         }
@@ -21,6 +21,23 @@ public class Manager extends Employee{
                 return -1;
             else return 1;
         });
-        // HITE FIRST NO_POSITIONS IN validReq LIST
+        for(int i = 0; i < job.noPositions; i++) {
+            User newEmp = (User) validReq.get(i).getValue1();
+            int unemployed = 0;
+            for(User u : Application.users) {
+                if(newEmp.resume.userInfo.getName().equals(u.resume.userInfo.getName()) &&
+                        newEmp.resume.userInfo.getSurname().equals(u.resume.userInfo.getSurname())) {
+                    unemployed = 1;
+                    Application.users.remove(u);
+                    break;
+                }
+            }
+            if(unemployed == 1) {
+                Application.getCompany(this.company).departments.get(0).employees.add(newEmp.convert());
+            }
+        }
+        job.noPositions = 0;
+        job.isOpen = false;
+        applications.clear();;
     }
 }
