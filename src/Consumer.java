@@ -1,5 +1,6 @@
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.concurrent.CompletionService;
 
 public abstract class Consumer {
     ArrayList<Consumer> friends;
@@ -22,27 +23,35 @@ public abstract class Consumer {
     }
 
     public int getDegreeInFriendship(Consumer consumer) {
-        int degree = 0;
-        HashSet<Consumer> visited = new HashSet<>();
-        HashMap<Consumer, Integer> count = new HashMap<>();
-        LinkedList<Consumer> q = new LinkedList<>();
-        visited.add(friends.get(0));
-        q.push(friends.get(0));
+        HashMap<Consumer, Integer> distanceMap = new HashMap<>();
+        distanceMap.put(this, 0);
+        PriorityQueue<Consumer> q = new PriorityQueue<Consumer>((o1, o2) -> {
+            if(distanceMap.get(o1) > distanceMap.get(o2)) {
+                return 1;
+            }
+            else if(distanceMap.get(o1).equals(distanceMap.get(o2))) {
+                return 0;
+            }
+            else return -1;
+        });
+        for(Consumer c : Application.consumers) {
+            if(c != this) {
+                distanceMap.put(c, Integer.MAX_VALUE);
+            }
+            q.add(c);
+        }
         while(!q.isEmpty()) {
-            Consumer temp = q.pop();
-            degree++;
-            for(Consumer c : temp.friends) {
-                if(!visited.contains(c)) {
-                    visited.add(c);
-                    count.put(c, degree);
-                    q.push(c);
-                    if(c.resume.userInfo.getName().equals(consumer.resume.userInfo.getName()) &&
-                        c.resume.userInfo.getSurname().equals(consumer.resume.userInfo.getSurname()))
-                        return count.get(c);
+            Consumer temp = q.poll();
+            for(Consumer f : temp.friends) {
+                int alt = distanceMap.get(temp) + 1;
+                if(alt < distanceMap.get(f)) {
+                    distanceMap.replace(f, alt);
+                    q.remove(f);
+                    q.add(f);
                 }
             }
         }
-        return -1;
+        return distanceMap.get(consumer);
     }
 
     public void remove(Consumer consumer) {
@@ -66,6 +75,15 @@ public abstract class Consumer {
             gpa += e.gradGPA;
         }
         return gpa / i;
+    }
+
+    static public Consumer searchByName(String name) {
+        for(Consumer c : Application.consumers) {
+            if(c.resume.userInfo.getSurname().equals(name)) {
+                return c;
+            }
+        }
+        return null;
     }
 
     class Resume {

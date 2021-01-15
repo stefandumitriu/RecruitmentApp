@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Job {
@@ -30,12 +27,12 @@ public class Job {
         for(Recruiter r : c.recruiters) {
             degrees.put(r, user.getDegreeInFriendship(r));
         }
-        for(int i : degrees.values()) {
-            System.out.print(i + " ");
+        System.out.println(user.resume.userInfo.getSurname());
+        for(Map.Entry e : degrees.entrySet()) {
+            System.out.println(((Recruiter) e.getKey()).resume.userInfo.getSurname() + " " + e.getValue());
         }
         HashMap<Recruiter, Integer> sortedMap = degrees.entrySet().stream().sorted(Map.Entry.comparingByValue())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, HashMap::new));
-        System.out.println("");
 //        if(isOpen && meetsRequirments(user)) {
 //            correctRecruiter.evaluate(this, user);
 //        }

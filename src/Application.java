@@ -3,12 +3,14 @@ import java.util.ArrayList;
 public class Application{
     static private ArrayList<Company> companies;
     static ArrayList<User> users;
+    static ArrayList<Consumer> consumers;
     private ArrayList<String> company_names;
 
     Application() {
         companies = new ArrayList<>();
         users = new ArrayList<>();
         company_names = new ArrayList<>();
+        consumers = new ArrayList<>();
     }
     public ArrayList<Company> getCompanies() {
         return companies;

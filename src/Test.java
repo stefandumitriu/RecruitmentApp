@@ -137,6 +137,7 @@ public class Test {
             Employee newEmp = (Employee) parseInformation(employeeObject, ref);
             newEmp.wage = (Integer) employeeObject.get("salary");
             employeeArrayList.add(newEmp);
+            Application.consumers.add(newEmp);
         }
 
         for(Object recruiter : recruiters) {
@@ -144,6 +145,7 @@ public class Test {
             Recruiter ref = new Recruiter();
             Recruiter newRec = (Recruiter) parseInformation(recruiterObject, ref);
             recruiterArrayList.add(newRec);
+            Application.consumers.add(newRec);
         }
 
         for(Object user : usersObjectArray) {
@@ -155,12 +157,14 @@ public class Test {
                 newUser.companiesInterest.add((String) comp);
             }
             userArrayList.add(newUser);
+            Application.consumers.add(newUser);
         }
         for(Object manager: managers) {
             JSONObject managerObject = (JSONObject) manager;
             Manager ref = new Manager();
             Manager newMan = (Manager) parseInformation(managerObject, ref);
             managerArrayList.add(newMan);
+            Application.consumers.add(newMan);
         }
         Application newApp = mergeInformation(mainApp, employeeArrayList, recruiterArrayList, managerArrayList, userArrayList);
         // Testing data
@@ -266,7 +270,10 @@ public class Test {
                     for(Employee eConsumers : employees) {
                         if(e.resume.userInfo.getName().equals(eConsumers.resume.userInfo.getName()) &&
                                 e.resume.userInfo.getSurname().equals(eConsumers.resume.userInfo.getSurname())) {
-                            eConsumers.friends = new ArrayList<>(e.friends);
+                            eConsumers.friends = new ArrayList<>();
+                            for(Consumer f : e.friends) {
+                                eConsumers.friends.add(Consumer.searchByName(f.resume.userInfo.getSurname()));
+                            }
                             eConsumers.company = c.name;
                             modifiedE.add(eConsumers);
                             break;
@@ -280,7 +287,10 @@ public class Test {
                 for(Recruiter rConsumers : recruiters) {
                     if(r.resume.userInfo.getName().equals(rConsumers.resume.userInfo.getName()) &&
                             r.resume.userInfo.getSurname().equals(rConsumers.resume.userInfo.getSurname())) {
-                        rConsumers.friends = new ArrayList<>(r.friends);
+                        rConsumers.friends = new ArrayList<>();
+                        for(Consumer f : r.friends) {
+                            rConsumers.friends.add(Consumer.searchByName(f.resume.userInfo.getSurname()));
+                        }
                         rConsumers.company = c.name;
                         modifiedR.add(rConsumers);
                         break;
@@ -294,7 +304,10 @@ public class Test {
             for(User uConsumers : users) {
                 if(u.resume.userInfo.getName().equals(uConsumers.resume.userInfo.getName()) &&
                         u.resume.userInfo.getSurname().equals(uConsumers.resume.userInfo.getSurname())) {
-                    uConsumers.friends = new ArrayList<>(u.friends);
+                    uConsumers.friends = new ArrayList<>();
+                    for(Consumer f : u.friends) {
+                        uConsumers.friends.add(Consumer.searchByName(f.resume.userInfo.getSurname()));
+                    }
                     modifiedU.add(uConsumers);
                     break;
                 }
