@@ -27,21 +27,32 @@ public class Job {
         for(Recruiter r : c.recruiters) {
             degrees.put(r, user.getDegreeInFriendship(r));
         }
-        System.out.println(user.resume.userInfo.getSurname());
-        for(Map.Entry e : degrees.entrySet()) {
-            System.out.println(((Recruiter) e.getKey()).resume.userInfo.getSurname() + " " + e.getValue());
+        Map.Entry<Recruiter, Integer> prefEntry = null;
+        int maxVal = Integer.MIN_VALUE;
+        for(Map.Entry<Recruiter, Integer> e : degrees.entrySet()) {
+            if(prefEntry == null || e.getValue().compareTo(prefEntry.getValue()) > 0) {
+                prefEntry = e;
+            }
         }
-        HashMap<Recruiter, Integer> sortedMap = degrees.entrySet().stream().sorted(Map.Entry.comparingByValue())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, HashMap::new));
-//        if(isOpen && meetsRequirments(user)) {
-//            correctRecruiter.evaluate(this, user);
-//        }
+        Recruiter prefRec = prefEntry.getKey();
+        if(isOpen && meetsRequirments(user)) {
+            prefRec.evaluate(this, user);
+        }
     }
 
     public boolean meetsRequirments(User user) {
         int yearsOfExp = 0;
         for(Experience e : user.resume.experience) {
             yearsOfExp += e.endYear.getYear() - e.startYear.getYear();
+        }
+        if(!gradYear.verify(user.getGraduationYear())) {
+            System.out.println(user.resume.userInfo.getSurname() + " application was rejected because of " + "gradYear @ " + company + " @ " + jobName);
+        }
+        if(!expYears.verify(yearsOfExp)) {
+            System.out.println(user.resume.userInfo.getSurname() + " application was rejected because of " + "yearsOfExp @ " + company + " @ " + jobName);
+        }
+        if(!GPA.verify(user.meanGPA())) {
+            System.out.println(user.resume.userInfo.getSurname() + " application was rejected because of " + "GPA @ " + company + " @ " + jobName);
         }
         return gradYear.verify(user.getGraduationYear()) &&
                 expYears.verify(yearsOfExp) &&

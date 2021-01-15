@@ -169,8 +169,8 @@ public class Test {
         Application newApp = mergeInformation(mainApp, employeeArrayList, recruiterArrayList, managerArrayList, userArrayList);
         // Testing data
         for(Company c : newApp.getCompanies()) {
-            System.out.println(c.name);
-            System.out.println("Manager: ");
+            System.out.println("Company: " + c.name);
+            System.out.print("Manager: ");
             System.out.println(c.manager.resume.userInfo.getName() + " "+ c.manager.resume.userInfo.getSurname());
             for(Education ed : c.manager.resume.education) {
                 System.out.println(ed.institution + " -> " + ed.level);
@@ -179,11 +179,16 @@ public class Test {
                 System.out.println(ex.company + ": " + ex.startYear.getYear() + " -> " + ex.endYear.getYear());
             }
             for(Consumer f : c.manager.friends) {
-                System.out.println(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + ", ");
+                if(c.manager.friends.indexOf(f) == c.manager.friends.size() - 1) {
+                    System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + "\n");
+                }
+                else
+                    System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + ", ");
             }
+            System.out.println("");
             for(Department d : c.departments) {
-                System.out.println(d.getClass().getName());
-                System.out.println("Employees:");
+                System.out.println("Dept.: " + d.getClass().getName());
+                System.out.println("Employees:\n");
                 for(Employee e : d.employees) {
                     System.out.println(e.resume.userInfo.getName() + " "+ e.resume.userInfo.getSurname());
                     for(Education ed : e.resume.education) {
@@ -198,13 +203,18 @@ public class Test {
                             System.out.println(ex.company + ": " + ex.startYear.getYear() + " -> " + ex.endYear.getYear());
                     }
                     for(Consumer f : e.friends) {
-                        System.out.println(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + ", ");
+                        if(e.friends.indexOf(f) == e.friends.size() - 1) {
+                            System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + "\n\n");
+                        }
+                        else
+                            System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + ", ");
                     }
                 }
                 System.out.println("Jobs: ");
                 for(Job j : d.jobs) {
                     System.out.println(j.wage + " " + j.jobName);
                 }
+                System.out.println("");
             }
             System.out.println("Recruiters: ");
             for(Recruiter e : c.recruiters) {
@@ -216,14 +226,18 @@ public class Test {
                     System.out.println(ex.company + ": " + ex.startYear.getYear() + " -> " + ex.endYear.getYear());
                 }
                 for(Consumer f : e.friends) {
-                    System.out.println(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + ", ");
+                    if(e.friends.indexOf(f) == e.friends.size() - 1) {
+                        System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + "\n\n");
+                    }
+                    else
+                        System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + ", ");
                 }
             }
         }
         System.out.println("Users:");
         for(User e : newApp.users) {
             System.out.println(e.resume.userInfo.getName() + " "+ e.resume.userInfo.getSurname());
-            System.out.println("Interested in: ");
+            System.out.print("Interested in: ");
             for(String c : e.companiesInterest) {
                 System.out.print(c + ", ");
             }
@@ -235,7 +249,11 @@ public class Test {
             }
             System.out.println((int) Math.ceil(yearsOfExp / 12.0));
             for(Consumer f : e.friends) {
-                System.out.println(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + ", ");
+                if(e.friends.indexOf(f) == e.friends.size() - 1) {
+                    System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + "\n\n");
+                }
+                else
+                    System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + ", ");
             }
         }
         for(User u : newApp.users) {

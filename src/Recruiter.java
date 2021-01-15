@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Recruiter extends Employee {
-    int rating;
+    double rating;
     Recruiter() {}
     Recruiter(String name, String surname, String email, String phone, String gender) {
         super(name, surname, email, phone, gender);
@@ -14,6 +14,8 @@ public class Recruiter extends Employee {
         if(Application.getCompany(this.company) != null) {
             Application.getCompany(this.company).manager.applications.add(r);
         }
+        System.out.println(user.resume.userInfo.getSurname() + " had a rating of " + score + " @ " + this.company + " @ " + job.jobName
+                + " (analyzed by recruiter " + this.resume.userInfo.getSurname() + ")");
         return (int) score;
     }
 }
