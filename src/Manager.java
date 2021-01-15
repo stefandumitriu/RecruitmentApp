@@ -14,15 +14,12 @@ public class Manager extends Employee{
                 validReq.add(r);
             }
         }
-        validReq.sort(new Comparator<>() {
-            @Override
-            public int compare(Request o1, Request o2) {
-                if (o1.getScore().equals(o2.getScore()))
-                    return 0;
-                else if (o1.getScore() > o2.getScore())
-                    return -1;
-                else return 1;
-            }
+        validReq.sort((o1, o2) -> {
+            if (o1.getScore().equals(o2.getScore()))
+                return 0;
+            else if (o1.getScore() > o2.getScore())
+                return -1;
+            else return 1;
         });
         // HITE FIRST NO_POSITIONS IN validReq LIST
     }

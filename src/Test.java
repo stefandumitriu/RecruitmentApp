@@ -5,8 +5,8 @@ import java.math.BigDecimal;
 import java.nio.file.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class Test {
@@ -111,39 +111,6 @@ public class Test {
             }
             mainApp.add(newUser);
         }
-        // Testing input file parsing
-//        for(Company company : mainApp.getCompanies()) {
-//            System.out.println(company.name);
-//            System.out.println("Recruiters:");
-//            for(Recruiter r : company.recruiters) {
-//                System.out.println(r.resume.userInfo.getName() + " " + r.resume.userInfo.getSurname() + " has friends:");
-//                for(Consumer c : r.friends) {
-//                    System.out.print(c.resume.userInfo.getName() + " " + c.resume.userInfo.getSurname() +", ");
-//                }
-//                System.out.println("");
-//            }
-//            for(Department d : company.departments) {
-//                System.out.println(d.getClass().getName());
-//                for(Job test : d.jobs) {
-//                    System.out.println(test.wage + " " + test.jobName);
-//                }
-//                for(Employee e : d.employees) {
-//                    System.out.println(e.resume.userInfo.getName() + " " + e.resume.userInfo.getSurname() + " has friends:");
-//                    for(Consumer c : e.friends) {
-//                        System.out.print(c.resume.userInfo.getName() + " " + c.resume.userInfo.getSurname() +", ");
-//                    }
-//                    System.out.println("");
-//                }
-//            }
-//        }
-//        System.out.println("Users:");
-//        for(User u : mainApp.users) {
-//            System.out.println(u.resume.userInfo.getName() + " " + u.resume.userInfo.getSurname() + " has friends:");
-//            for(Consumer c : u.friends) {
-//                System.out.print(c.resume.userInfo.getName() + " " + c.resume.userInfo.getSurname() +", ");
-//            }
-//            System.out.println("");
-//        }
         /* FROM HERE I PARSE CONSUMER.JSON FILE
         *
         *
@@ -195,57 +162,133 @@ public class Test {
             Manager newMan = (Manager) parseInformation(managerObject, ref);
             managerArrayList.add(newMan);
         }
-        // Testing input from consumers.json
-        System.out.println("Employees:");
-        for(Employee e : employeeArrayList) {
-            System.out.println(e.resume.userInfo.getName() + " "+ e.resume.userInfo.getSurname());
-            for(Education ed : e.resume.education) {
+        Application newApp = mergeInformation(mainApp, employeeArrayList, recruiterArrayList, managerArrayList, userArrayList);
+        // Testing data
+        for(Company c : newApp.getCompanies()) {
+            System.out.println(c.name);
+            System.out.println("Manager: ");
+            System.out.println(c.manager.resume.userInfo.getName() + " "+ c.manager.resume.userInfo.getSurname());
+            for(Education ed : c.manager.resume.education) {
                 System.out.println(ed.institution + " -> " + ed.level);
             }
-            for(Experience ex : e.resume.experience) {
-                if(e.resume.experience.indexOf(ex) == 0) {
-                    System.out.println(ex.company + ": " + ex.startYear.getYear() + " -> " + ex.endYear.getYear()
-                            + " " + e.wage + "$");
-                }
-                else
-                    System.out.println(ex.company + ": " + ex.startYear.getYear() + " -> " + ex.endYear.getYear());
-            }
-        }
-        System.out.println("Recruiters:");
-        for(Recruiter e : recruiterArrayList) {
-            System.out.println(e.resume.userInfo.getName() + " "+ e.resume.userInfo.getSurname());
-            for(Education ed : e.resume.education) {
-                System.out.println(ed.institution + " -> " + ed.level);
-            }
-            for(Experience ex : e.resume.experience) {
+            for(Experience ex : c.manager.resume.experience) {
                 System.out.println(ex.company + ": " + ex.startYear.getYear() + " -> " + ex.endYear.getYear());
+            }
+            for(Consumer f : c.manager.friends) {
+                System.out.println(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + ", ");
+            }
+            for(Department d : c.departments) {
+                System.out.println(d.getClass().getName());
+                System.out.println("Employees:");
+                for(Employee e : d.employees) {
+                    System.out.println(e.resume.userInfo.getName() + " "+ e.resume.userInfo.getSurname());
+                    for(Education ed : e.resume.education) {
+                        System.out.println(ed.institution + " -> " + ed.level);
+                    }
+                    for(Experience ex : e.resume.experience) {
+                        if(e.resume.experience.indexOf(ex) == 0) {
+                            System.out.println(ex.company + ": " + ex.startYear.getYear() + " -> " + ex.endYear.getYear()
+                                    + " " + e.wage + "$");
+                        }
+                        else
+                            System.out.println(ex.company + ": " + ex.startYear.getYear() + " -> " + ex.endYear.getYear());
+                    }
+                    for(Consumer f : e.friends) {
+                        System.out.println(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + ", ");
+                    }
+                }
+                System.out.println("Jobs: ");
+                for(Job j : d.jobs) {
+                    System.out.println(j.wage + " " + j.jobName);
+                }
+            }
+            System.out.println("Recruiters: ");
+            for(Recruiter e : c.recruiters) {
+                System.out.println(e.resume.userInfo.getName() + " "+ e.resume.userInfo.getSurname());
+                for(Education ed : e.resume.education) {
+                    System.out.println(ed.institution + " -> " + ed.level);
+                }
+                for(Experience ex : e.resume.experience) {
+                    System.out.println(ex.company + ": " + ex.startYear.getYear() + " -> " + ex.endYear.getYear());
+                }
+                for(Consumer f : e.friends) {
+                    System.out.println(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + ", ");
+                }
             }
         }
         System.out.println("Users:");
-        for(User e : userArrayList) {
+        for(User e : newApp.users) {
             System.out.println(e.resume.userInfo.getName() + " "+ e.resume.userInfo.getSurname());
             System.out.println("Interested in: ");
             for(String c : e.companiesInterest) {
                 System.out.print(c + ", ");
             }
             System.out.print("\n");
-            for(Education ed : e.resume.education) {
-                System.out.println(ed.institution + " -> " + ed.level);
-            }
+            int yearsOfExp = 0;
             for(Experience ex : e.resume.experience) {
                 System.out.println(ex.company + ": " + ex.startYear.getYear() + " -> " + ex.endYear.getYear());
+                yearsOfExp += (int) ex.startYear.until(ex.endYear, ChronoUnit.MONTHS);
+            }
+            System.out.println((int) Math.ceil(yearsOfExp / 12.0));
+            for(Consumer f : e.friends) {
+                System.out.println(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + ", ");
             }
         }
-        System.out.println("Managers:");
-        for(Manager e : managerArrayList) {
-            System.out.println(e.resume.userInfo.getName() + " "+ e.resume.userInfo.getSurname());
-            for(Education ed : e.resume.education) {
-                System.out.println(ed.institution + " -> " + ed.level);
+    }
+    public static Application mergeInformation(Application mainApp, ArrayList<Employee> employees, ArrayList<Recruiter> recruiters,
+                                        ArrayList<Manager> managers, ArrayList<User> users) {
+        Application app;
+        app = mainApp;
+        for(Company c : app.getCompanies()) {
+            for(Manager m : managers) {
+                if(m.resume.userInfo.getName().equals(c.manager.resume.userInfo.getName()) &&
+                        m.resume.userInfo.getSurname().equals(c.manager.resume.userInfo.getSurname())) {
+                    c.manager = m;
+                    break;
+                }
             }
-            for(Experience ex : e.resume.experience) {
-                System.out.println(ex.company + ": " + ex.startYear.getYear() + " -> " + ex.endYear.getYear());
+            for(Department d: c.departments) {
+                ArrayList<Employee> modifiedE = new ArrayList<>();
+                for(Employee e : d.employees) {
+                    for(Employee eConsumers : employees) {
+                        if(e.resume.userInfo.getName().equals(eConsumers.resume.userInfo.getName()) &&
+                                e.resume.userInfo.getSurname().equals(eConsumers.resume.userInfo.getSurname())) {
+                            eConsumers.friends = new ArrayList<>(e.friends);
+                            eConsumers.company = c.name;
+                            modifiedE.add(eConsumers);
+                            break;
+                        }
+                    }
+                }
+                d.employees = new ArrayList<>(modifiedE);
+            }
+            for(Recruiter r : c.recruiters) {
+                ArrayList<Recruiter> modifiedR = new ArrayList<>();
+                for(Recruiter rConsumers : recruiters) {
+                    if(r.resume.userInfo.getName().equals(rConsumers.resume.userInfo.getName()) &&
+                            r.resume.userInfo.getSurname().equals(rConsumers.resume.userInfo.getSurname())) {
+                        rConsumers.friends = new ArrayList<>(r.friends);
+                        rConsumers.company = c.name;
+                        modifiedR.add(rConsumers);
+                        break;
+                    }
+                }
+                c.recruiters = new ArrayList<>(modifiedR);
             }
         }
+        for(User u : app.users) {
+            ArrayList<User> modifiedU = new ArrayList<>();
+            for(User uConsumers : users) {
+                if(u.resume.userInfo.getName().equals(uConsumers.resume.userInfo.getName()) &&
+                        u.resume.userInfo.getSurname().equals(uConsumers.resume.userInfo.getSurname())) {
+                    uConsumers.friends = new ArrayList<>(u.friends);
+                    modifiedU.add(uConsumers);
+                    break;
+                }
+            }
+            app.users = new ArrayList<>(modifiedU);
+        }
+        return app;
     }
     public static Consumer parseInformation(JSONObject consumerObject, Object refObject) throws InvalidDatesException {
         Consumer c;

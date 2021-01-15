@@ -36,7 +36,8 @@ public abstract class Consumer {
                     visited.add(c);
                     count.put(c, degree);
                     q.push(c);
-                    if(c == consumer)
+                    if(c.resume.userInfo.getName().equals(consumer.resume.userInfo.getName()) &&
+                        c.resume.userInfo.getSurname().equals(consumer.resume.userInfo.getSurname()))
                         return count.get(c);
                 }
             }
