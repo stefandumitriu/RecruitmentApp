@@ -5,13 +5,13 @@ import java.math.BigDecimal;
 import java.nio.file.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class Test {
     public static void Parser() throws IOException, InvalidDatesException, ResumeIncompleteException {
         Application mainApp = Application.getInstance();
+        DepartmentFactory departmentFactory = new DepartmentFactory();
         /* FROM HERE I PARSE CONSUMER.JSON FILE
         *
         *
@@ -87,18 +87,7 @@ public class Test {
             for(int j = 0; j < departments.length(); j++) {
                 JSONObject department = (JSONObject) departments.get(j);
                 JSONArray employeesInput = department.getJSONArray("employees");
-                if((department.get("name")).equals("IT")) {
-                    mainApp.getCompany(companyName).add(new IT());
-                }
-                else if((department.get("name")).equals("Management")) {
-                    mainApp.getCompany(companyName).add(new Management());
-                }
-                else if((department.get("name")).equals("Marketing")) {
-                    mainApp.getCompany(companyName).add(new Marketing());
-                }
-                else if((department.get("name")).equals("Finance")) {
-                    mainApp.getCompany(companyName).add(new Finance());
-                }
+                mainApp.getCompany(companyName).add(departmentFactory.getDepartment((String) department.get("name")));
                 for(int k = 0; k < employeesInput.length(); k++) {
                     String[] name = ((String)((JSONObject) employeesInput.get(k)).get("name")).split(" ");
                     JSONArray friends = ((JSONObject) employeesInput.get(k)).getJSONArray("friends");
@@ -208,7 +197,7 @@ public class Test {
                     System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + "\n");
                 }
                 else
-                    System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + ", ");
+                    System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + "; ");
             }
             System.out.println("");
             for(Department d : c.departments) {
@@ -233,7 +222,7 @@ public class Test {
                             System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + "\n\n");
                         }
                         else
-                            System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + ", ");
+                            System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + "; ");
                     }
                     System.out.println();
                 }
@@ -258,7 +247,7 @@ public class Test {
                         System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + "\n\n");
                     }
                     else
-                        System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + ", ");
+                        System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + "; ");
                 }
             }
         }
@@ -267,13 +256,14 @@ public class Test {
             System.out.println(e.resume.userInfo.getName() + " "+ e.resume.userInfo.getSurname());
             System.out.print("Interested in: ");
             for(String c : e.companiesInterest) {
-                System.out.print(c + ", ");
+                System.out.print(c + "; ");
             }
             System.out.print("\n");
-            int yearsOfExp = 0;
+            for(Education ed : e.resume.education) {
+                System.out.println(ed.institution + " -> " + ed.level);
+            }
             for(Experience ex : e.resume.experience) {
                 System.out.println(ex.company + ": " + ex.startYear.getYear() + " -> " + ex.endYear.getYear());
-                yearsOfExp += (int) ex.startYear.until(ex.endYear, ChronoUnit.MONTHS);
             }
             System.out.print("Friends: ");
             for(Consumer f : e.friends) {
@@ -281,7 +271,7 @@ public class Test {
                     System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + "\n\n");
                 }
                 else
-                    System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + ", ");
+                    System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + "; ");
             }
         }
     }
