@@ -35,6 +35,10 @@ public class Manager extends Employee{
                 if(newEmp.resume.userInfo.getName().equals(u.resume.userInfo.getName()) &&
                         newEmp.resume.userInfo.getSurname().equals(u.resume.userInfo.getSurname())) {
                     unemployed = 1;
+                    u.update(new Notification(Application.getInstance().getCompany(this.company), job, "hired"));
+                    for(Company c : Application.getInstance().companies) {
+                        c.removeObserver(u);
+                    }
                     Application.getInstance().users.remove(u);
                     for(Request r : applications) {
                         if(((User) r.getValue1()).resume.userInfo.getSurname().equals(newEmp.resume.userInfo.getSurname())) {
@@ -52,9 +56,12 @@ public class Manager extends Employee{
                 Application.getInstance().getCompany(this.company).departments.get(0).employees.add(e);
                 System.out.println(e.resume.userInfo.getName() + " " + e.resume.userInfo.getSurname() + " was hired @" + e.company +
                         " as a " + job.jobName);
+
             }
         }
-        job.noPositions = 0;
+        Company c = Application.getInstance().getCompany(this.company);
+        if(job.noPositions == 0)
+            c.notifyAllObservers(new Notification(c, job, "closed"));
         job.isOpen = false;
         validReq.clear();
     }

@@ -22,6 +22,7 @@ public class Job {
     }
     public void apply(User user) {
         Company c = Application.getInstance().getCompany(company);
+        Application.getInstance().getCompany(this.company).addObserver(user);
         HashMap<Recruiter, Integer> degrees = new HashMap<>();
         assert c != null;
         for(Recruiter r : c.recruiters) {
@@ -38,6 +39,9 @@ public class Job {
         if(isOpen && meetsRequirments(user)) {
             prefRec.evaluate(this, user);
         }
+        else if(!meetsRequirments(user)) {
+            user.update(new Notification(Application.getInstance().getCompany(this.company), this, "rejection"));
+        }
     }
 
     public boolean meetsRequirments(User user) {
@@ -48,10 +52,10 @@ public class Job {
         if(!gradYear.verify(user.getGraduationYear())) {
             System.out.println(user.resume.userInfo.getSurname() + " application was rejected because of " + "gradYear @ " + company + " @ " + jobName);
         }
-        if(!expYears.verify(yearsOfExp)) {
+        else if(!expYears.verify(yearsOfExp)) {
             System.out.println(user.resume.userInfo.getSurname() + " application was rejected because of " + "yearsOfExp @ " + company + " @ " + jobName);
         }
-        if(!GPA.verify(user.meanGPA())) {
+        else if(!GPA.verify(user.meanGPA())) {
             System.out.println(user.resume.userInfo.getSurname() + " application was rejected because of " + "GPA @ " + company + " @ " + jobName);
         }
         return gradYear.verify(user.getGraduationYear()) &&
