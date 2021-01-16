@@ -6,8 +6,8 @@ public abstract class Consumer {
     ArrayList<Consumer> friends;
     Resume resume;
     Consumer() {}
-    Consumer(String name, String surname, String email, String phone, String gender) {
-        this.resume = new Resume(name, surname, email, phone, gender);
+    Consumer(String name, String surname, String email, String phone, String gender, ArrayList<Education> education, ArrayList<Experience> experience) throws ResumeIncompleteException {
+        this.resume = new Resume.ResumeBuilder(new Information(name, surname, email, phone, gender), education).experience(experience).build();
         friends = new ArrayList<>();
     }
     public void add(Education education) {
@@ -84,16 +84,5 @@ public abstract class Consumer {
             }
         }
         return null;
-    }
-
-    class Resume {
-        Information userInfo;
-        ArrayList<Education> education;
-        ArrayList<Experience> experience;
-        Resume(String name, String surname, String email, String phone, String gender) {
-            this.userInfo = new Information(name, surname, email, phone, gender);
-            this.education = new ArrayList<>();
-            this.experience = new ArrayList<>();
-        }
     }
 }

@@ -3,14 +3,14 @@ import java.util.Comparator;
 
 public class Manager extends Employee{
     Manager(){}
-    Manager(String name, String surname, String email, String phone, String gender) {
-        super(name, surname, email, phone, gender);
+    Manager(String name, String surname, String email, String phone, String gender, ArrayList<Education> education, ArrayList<Experience> experience) throws ResumeIncompleteException {
+        super(name, surname, email, phone, gender, education, experience);
         applications = new ArrayList<>();
         validReq = new ArrayList<>();
     }
     ArrayList<Request<Job, Consumer>> applications;
     ArrayList<Request<Job, Consumer>> validReq;
-    public void process(Job job) {
+    public void process(Job job) throws ResumeIncompleteException {
         for(Request<Job, Consumer> r: applications) {
             if(r.getKey().jobName.equals(job.jobName)) {
                 validReq.add(r);

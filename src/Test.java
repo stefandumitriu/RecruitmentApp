@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Test {
-    public static void Parser() throws IOException, InvalidDatesException {
+    public static void Parser() throws IOException, InvalidDatesException, ResumeIncompleteException {
         Application mainApp = Application.getInstance();
         /* FROM HERE I PARSE CONSUMER.JSON FILE
         *
@@ -66,7 +66,6 @@ public class Test {
             managerArrayList.add(newMan);
             Application.getInstance().consumers.add(newMan);
         }
-//        Application newApp = mergeInformation(mainApp, employeeArrayList, recruiterArrayList, managerArrayList, userArrayList);
         /* FROM HERE I MERGE WITH DATA FROM INPUT
         *
         *
@@ -286,29 +285,14 @@ public class Test {
             }
         }
     }
-    public static Consumer parseInformation(JSONObject consumerObject, Object refObject) throws InvalidDatesException {
+    public static Consumer parseInformation(JSONObject consumerObject, Object refObject) throws InvalidDatesException, ResumeIncompleteException {
         Consumer c;
+        ArrayList<Education> tempEducation = new ArrayList<>();
+        ArrayList<Experience> tempExperience = new ArrayList<>();
         String[] name = ((String) consumerObject.get("name")).split(" ");
         String email = (String) consumerObject.get("email");
         String phone = (String) consumerObject.get("phone");
         String gender = (String) consumerObject.get("genre");
-        if(refObject instanceof Recruiter) {
-            c = new Recruiter(name[0], name[1], email, phone, gender);
-        }
-        else if(refObject instanceof Manager) {
-            c = new Manager(name[0], name[1], email, phone, gender);
-        }
-        else if(refObject instanceof Employee) {
-            c = new Employee(name[0], name[1], email, phone, gender);
-        }
-        else {
-            c = new User(name[0], name[1], email, phone, gender);
-        }
-        JSONArray languages = consumerObject.getJSONArray("languages");
-        JSONArray languages_level = consumerObject.getJSONArray("languages_level");
-        for(int i = 0; i < languages.length(); i++) {
-            c.resume.userInfo.addLanguage((String) languages.get(i), (String) languages_level.get(i));
-        }
         JSONArray educationArray = consumerObject.getJSONArray("education");
         for(Object ed : educationArray) {
             JSONObject edObject = (JSONObject) ed;
@@ -328,7 +312,7 @@ public class Test {
             }
             else
                 endYear = LocalDate.now();
-            c.resume.education.add(new Education(startYear, endYear, institutionName, level, GPA));
+            tempEducation.add(new Education(startYear, endYear, institutionName, level, GPA));
         }
         JSONArray experienceArray = consumerObject.getJSONArray("experience");
         for(Object ex : experienceArray) {
@@ -347,18 +331,35 @@ public class Test {
             }
             else
                 endYear = LocalDate.now();
-            c.resume.experience.add(new Experience(startYear, endYear, job, companyName, department));
+            tempExperience.add(new Experience(startYear, endYear, job, companyName, department));
+        }
+        if(refObject instanceof Recruiter) {
+            c = new Recruiter(name[0], name[1], email, phone, gender, tempEducation, tempExperience);
+        }
+        else if(refObject instanceof Manager) {
+            c = new Manager(name[0], name[1], email, phone, gender, tempEducation, tempExperience);
+        }
+        else if(refObject instanceof Employee) {
+            c = new Employee(name[0], name[1], email, phone, gender, tempEducation, tempExperience);
+        }
+        else {
+            c = new User(name[0], name[1], email, phone, gender, tempEducation, tempExperience);
         }
         if(c instanceof Recruiter) {
             for(Experience ex : c.resume.experience) {
                 ex.department = "IT";
             }
         }
+        JSONArray languages = consumerObject.getJSONArray("languages");
+        JSONArray languages_level = consumerObject.getJSONArray("languages_level");
+        for(int i = 0; i < languages.length(); i++) {
+            c.resume.userInfo.addLanguage((String) languages.get(i), (String) languages_level.get(i));
+        }
         Collections.sort(c.resume.education);
         Collections.sort(c.resume.experience);
         return c;
     }
-    public static void main(String[] args) throws IOException, InvalidDatesException {
+    public static void main(String[] args) throws IOException, InvalidDatesException, ResumeIncompleteException {
         Test.Parser();
     }
 }

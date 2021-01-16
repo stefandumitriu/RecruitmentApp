@@ -6,12 +6,7 @@ public class Employee extends Consumer {
     Employee() {
 
     }
-    Employee(String name, String surname, String email, String phone, String gender) {
-        super(name, surname, email, phone, gender);
-    }
-    Employee(String name, String surname, String email, String phone, String gender, int wage, String company) {
-        this(name, surname, email, phone, gender);
-        this.wage = wage;
-        this.company = company;
+    Employee(String name, String surname, String email, String phone, String gender, ArrayList<Education> education, ArrayList<Experience> experience) throws ResumeIncompleteException {
+        super(name, surname, email, phone, gender, education, experience);
     }
 }

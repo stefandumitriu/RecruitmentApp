@@ -3,8 +3,8 @@ import java.util.ArrayList;
 public class Recruiter extends Employee {
     double rating;
     Recruiter() {}
-    Recruiter(String name, String surname, String email, String phone, String gender) {
-        super(name, surname, email, phone, gender);
+    Recruiter(String name, String surname, String email, String phone, String gender, ArrayList<Education> education, ArrayList<Experience> experience) throws ResumeIncompleteException {
+        super(name, surname, email, phone, gender, education, experience);
         rating = 5;
     }
     public int evaluate(Job job, User user) {

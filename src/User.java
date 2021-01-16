@@ -3,14 +3,14 @@ import java.util.ArrayList;
 
 public class User extends Consumer implements Observer{
     User() {}
-    User(String name, String surname, String email, String phone, String gender) {
-        super(name, surname, email, phone, gender);
+    User(String name, String surname, String email, String phone, String gender, ArrayList<Education> education, ArrayList<Experience> experience) throws ResumeIncompleteException {
+        super(name, surname, email, phone, gender, education, experience);
         companiesInterest = new ArrayList<>();
     }
     ArrayList<String> companiesInterest;
-    public Employee convert() {
+    public Employee convert() throws ResumeIncompleteException {
         Employee e = new Employee(this.resume.userInfo.getName(), this.resume.userInfo.getSurname(), this.resume.userInfo.getEmail(),
-                this.resume.userInfo.getPhone(), this.resume.userInfo.getGender());
+                this.resume.userInfo.getPhone(), this.resume.userInfo.getGender(), this.resume.education, this.resume.experience);
         return e;
     }
     public Double getTotalScore() {
