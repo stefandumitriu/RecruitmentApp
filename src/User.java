@@ -25,10 +25,10 @@ public class User extends Consumer implements Observer{
 
     @Override
     public void update(Notification notification) {
-        switch (notification.notificationType) {
-            case "rejection" -> System.out.println("You have been rejected " + " @ " + notification.company.name + " @ " + notification.job.jobName);
-            case "hired" -> System.out.println("You have been hired " + " @ " + notification.company.name + " @ " + notification.job.jobName);
-            case "closed" -> System.out.println(notification.job.jobName + " @ " + notification.company.name + " has been closed");
-        }
+//        switch (notification.notificationType) {
+//            case "rejection" -> System.out.println("You have been rejected " + " @ " + notification.company.name + " @ " + notification.job.jobName);
+//            case "hired" -> System.out.println("You have been hired " + " @ " + notification.company.name + " @ " + notification.job.jobName);
+//            case "closed" -> System.out.println(notification.job.jobName + " @ " + notification.company.name + " has been closed");
+//        }
     }
 }

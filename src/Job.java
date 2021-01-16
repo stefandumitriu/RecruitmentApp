@@ -36,11 +36,11 @@ public class Job {
             }
         }
         Recruiter prefRec = prefEntry.getKey();
-        if(isOpen && meetsRequirments(user)) {
-            prefRec.evaluate(this, user);
-        }
-        else if(!meetsRequirments(user)) {
+        if(!meetsRequirments(user)) {
             user.update(new Notification(Application.getInstance().getCompany(this.company), this, "rejection"));
+        }
+        else if(isOpen && meetsRequirments(user)) {
+            prefRec.evaluate(this, user);
         }
     }
 

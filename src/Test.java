@@ -11,20 +11,83 @@ import java.util.Collections;
 
 public class Test {
     public static void Parser() throws IOException, InvalidDatesException {
+        Application mainApp = Application.getInstance();
+        /* FROM HERE I PARSE CONSUMER.JSON FILE
+        *
+        *
+        *
+        *
+         */
+        Path p_consumers = Paths.get("C:\\Users\\stefan.dumitriu\\Desktop\\tema_poo\\src\\consumers.json");
+        String jsonStringConsumers = Files.readString(p_consumers);
+        JSONObject content = new JSONObject(jsonStringConsumers);
+        JSONArray employees = content.getJSONArray("employees");
+        JSONArray recruiters = content.getJSONArray("recruiters");
+        JSONArray users = content.getJSONArray("users");
+        JSONArray managers = content.getJSONArray("managers");
+
+        ArrayList<Employee> employeeArrayList = new ArrayList<>();
+        ArrayList<User> userArrayList = new ArrayList<>();
+        ArrayList<Recruiter> recruiterArrayList = new ArrayList<>();
+        ArrayList<Manager> managerArrayList = new ArrayList<>();
+
+        for(Object employee : employees) {
+            JSONObject employeeObject = (JSONObject) employee;
+            Employee ref = new Employee();
+            Employee newEmp = (Employee) parseInformation(employeeObject, ref);
+            newEmp.wage = (Integer) employeeObject.get("salary");
+            employeeArrayList.add(newEmp);
+            Application.getInstance().consumers.add(newEmp);
+        }
+
+        for(Object recruiter : recruiters) {
+            JSONObject recruiterObject = (JSONObject) recruiter;
+            Recruiter ref = new Recruiter();
+            Recruiter newRec = (Recruiter) parseInformation(recruiterObject, ref);
+            recruiterArrayList.add(newRec);
+            Application.getInstance().consumers.add(newRec);
+        }
+
+        for(Object user : users) {
+            JSONObject userObject = (JSONObject) user;
+            User ref = new User();
+            User newUser = (User) parseInformation(userObject, ref);
+            JSONArray prefCompanies = userObject.getJSONArray("interested_companies");
+            for(Object comp : prefCompanies) {
+                newUser.companiesInterest.add((String) comp);
+            }
+            userArrayList.add(newUser);
+            Application.getInstance().consumers.add(newUser);
+        }
+        for(Object manager: managers) {
+            JSONObject managerObject = (JSONObject) manager;
+            Manager ref = new Manager();
+            Manager newMan = (Manager) parseInformation(managerObject, ref);
+            managerArrayList.add(newMan);
+            Application.getInstance().consumers.add(newMan);
+        }
+//        Application newApp = mergeInformation(mainApp, employeeArrayList, recruiterArrayList, managerArrayList, userArrayList);
+        /* FROM HERE I MERGE WITH DATA FROM INPUT
+        *
+        *
+        *
+        *
+         */
         Path p_input = Paths.get("C:\\Users\\stefan.dumitriu\\Desktop\\tema_poo\\src\\input.json");
         String jsonStringInput = Files.readString(p_input);
         JSONObject o = new JSONObject(jsonStringInput);
         JSONArray companies = o.getJSONArray("companies");
-        Application mainApp = Application.getInstance();
         for(int i = 0; i < companies.length(); i++) {
             JSONObject company = companies.getJSONObject(i);
             String[] managerName = ((String) company.get("manager")).split("\\s+");
             String companyName = (String) company.get("name");
-            mainApp.add(new Company(companyName, new Manager(managerName[0], managerName[1], null, null, null)));
+            Manager newMan = (Manager) Consumer.searchByName(managerName[1]);
+            newMan.company = companyName;
+            mainApp.add(new Company(companyName, newMan));
             JSONArray departments = company.getJSONArray("departments");
             for(int j = 0; j < departments.length(); j++) {
                 JSONObject department = (JSONObject) departments.get(j);
-                JSONArray employees = department.getJSONArray("employees");
+                JSONArray employeesInput = department.getJSONArray("employees");
                 if((department.get("name")).equals("IT")) {
                     mainApp.getCompany(companyName).add(new IT());
                 }
@@ -37,15 +100,16 @@ public class Test {
                 else if((department.get("name")).equals("Finance")) {
                     mainApp.getCompany(companyName).add(new Finance());
                 }
-                for(int k = 0; k < employees.length(); k++) {
-                    String[] name = ((String)((JSONObject) employees.get(k)).get("name")).split(" ");
-                    JSONArray friends = ((JSONObject) employees.get(k)).getJSONArray("friends");
-                    Employee newEmp = new Employee(name[0], name[1], null, null, null);
+                for(int k = 0; k < employeesInput.length(); k++) {
+                    String[] name = ((String)((JSONObject) employeesInput.get(k)).get("name")).split(" ");
+                    JSONArray friends = ((JSONObject) employeesInput.get(k)).getJSONArray("friends");
+                    Employee newEmp = (Employee) Consumer.searchByName(name[1]);
+                    newEmp.company = companyName;
                     for(Object f : friends) {
                         String[] friendName = ((String) f).split(" ");
-                        newEmp.add(new User(friendName[0], friendName[1], null, null, null));
+                        newEmp.add(Consumer.searchByName(friendName[1]));
                     }
-                    mainApp.getCompany(companyName).add( newEmp, mainApp.getCompany(companyName).departments.get(j));
+                    mainApp.getCompany(companyName).add(newEmp, mainApp.getCompany(companyName).departments.get(j));
                 }
                 if(department.keySet().contains("jobs")){
                     JSONArray jobs = department.getJSONArray("jobs");
@@ -88,86 +152,47 @@ public class Test {
                     }
                 }
             }
-            JSONArray recruiters = company.getJSONArray("recruiters");
-            for(Object rec : recruiters) {
+            JSONArray recruitersInput = company.getJSONArray("recruiters");
+            for(Object rec : recruitersInput) {
                 JSONArray recFriends = ((JSONObject) rec).getJSONArray("friends");
                 String[] recName = ((String)((JSONObject) rec).get("name")).split(" ");
-                Recruiter newRec = new Recruiter(recName[0], recName[1], null, null, null);
+                Recruiter newRec = (Recruiter) Consumer.searchByName(recName[1]);
+                newRec.company = companyName;
                 for(Object f : recFriends) {
                     String[] friendName = ((String) f).split(" ");
-                    newRec.add(new User(friendName[0], friendName[1], null, null, null));
+                    newRec.add(Consumer.searchByName(friendName[1]));
                 }
                 mainApp.getCompany(companyName).recruiters.add(newRec);
             }
         }
-        JSONArray users = o.getJSONArray("users");
-        for(Object user : users) {
+        JSONArray usersInput = o.getJSONArray("users");
+        for(Object user : usersInput) {
             String[] userName = ((String)((JSONObject) user).get("name")).split(" ");
-            User newUser = new User(userName[0], userName[1], null, null, null);
+            User newUser = (User) Consumer.searchByName(userName[1]);
             JSONArray friends = ((JSONObject) user).getJSONArray("friends");
             for(Object f : friends) {
                 String[] friendName = ((String) f).split(" ");
-                newUser.add(new User(friendName[0], friendName[1], null, null, null));
+                newUser.add(Consumer.searchByName(friendName[1]));
             }
             mainApp.add(newUser);
         }
-        /* FROM HERE I PARSE CONSUMER.JSON FILE
-        *
-        *
-        *
-        *
-        *
-         */
-        Path p_consumers = Paths.get("C:\\Users\\stefan.dumitriu\\Desktop\\tema_poo\\src\\consumers.json");
-        String jsonStringConsumers = Files.readString(p_consumers);
-        JSONObject content = new JSONObject(jsonStringConsumers);
-        JSONArray employees = content.getJSONArray("employees");
-        JSONArray recruiters = content.getJSONArray("recruiters");
-        JSONArray usersObjectArray = content.getJSONArray("users");
-        JSONArray managers = content.getJSONArray("managers");
-
-        ArrayList<Employee> employeeArrayList = new ArrayList<>();
-        ArrayList<User> userArrayList = new ArrayList<>();
-        ArrayList<Recruiter> recruiterArrayList = new ArrayList<>();
-        ArrayList<Manager> managerArrayList = new ArrayList<>();
-
-        for(Object employee : employees) {
-            JSONObject employeeObject = (JSONObject) employee;
-            Employee ref = new Employee();
-            Employee newEmp = (Employee) parseInformation(employeeObject, ref);
-            newEmp.wage = (Integer) employeeObject.get("salary");
-            employeeArrayList.add(newEmp);
-            Application.getInstance().consumers.add(newEmp);
-        }
-
-        for(Object recruiter : recruiters) {
-            JSONObject recruiterObject = (JSONObject) recruiter;
-            Recruiter ref = new Recruiter();
-            Recruiter newRec = (Recruiter) parseInformation(recruiterObject, ref);
-            recruiterArrayList.add(newRec);
-            Application.getInstance().consumers.add(newRec);
-        }
-
-        for(Object user : usersObjectArray) {
-            JSONObject userObject = (JSONObject) user;
-            User ref = new User();
-            User newUser = (User) parseInformation(userObject, ref);
-            JSONArray prefCompanies = userObject.getJSONArray("interested_companies");
-            for(Object comp : prefCompanies) {
-                newUser.companiesInterest.add((String) comp);
-            }
-            userArrayList.add(newUser);
-            Application.getInstance().consumers.add(newUser);
-        }
-        for(Object manager: managers) {
-            JSONObject managerObject = (JSONObject) manager;
-            Manager ref = new Manager();
-            Manager newMan = (Manager) parseInformation(managerObject, ref);
-            managerArrayList.add(newMan);
-            Application.getInstance().consumers.add(newMan);
-        }
-        Application newApp = mergeInformation(mainApp, employeeArrayList, recruiterArrayList, managerArrayList, userArrayList);
         // Testing data
+        printDataInput(mainApp);
+        // Applying process
+        for(User u : mainApp.users) {
+            for(String company : u.companiesInterest) {
+                for(Job j : Application.getInstance().getCompany(company).departments.get(0).jobs) {
+                    j.apply(u);
+                }
+            }
+        }
+        for(Company c : mainApp.getCompanies()) {
+            for(Job j : c.departments.get(0).jobs) {
+                c.manager.process(j);
+            }
+        }
+    }
+    public static void printDataInput(Application newApp) {
         for(Company c : newApp.getCompanies()) {
             System.out.println("Company: " + c.name);
             System.out.print("Manager: ");
@@ -211,6 +236,7 @@ public class Test {
                         else
                             System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + ", ");
                     }
+                    System.out.println();
                 }
                 System.out.println("Jobs: ");
                 for(Job j : d.jobs) {
@@ -259,83 +285,6 @@ public class Test {
                     System.out.print(f.resume.userInfo.getName() + " " + f.resume.userInfo.getSurname() + ", ");
             }
         }
-        for(User u : newApp.users) {
-            for(String company : u.companiesInterest) {
-                for(Job j : Application.getInstance().getCompany(company).departments.get(0).jobs) {
-                    j.apply(u);
-                }
-            }
-        }
-        for(Company c : mainApp.getCompanies()) {
-            for(Job j : c.departments.get(0).jobs) {
-                c.manager.process(j);
-            }
-        }
-    }
-    public static Application mergeInformation(Application mainApp, ArrayList<Employee> employees, ArrayList<Recruiter> recruiters,
-                                        ArrayList<Manager> managers, ArrayList<User> users) {
-        Application app;
-        app = mainApp;
-        for(Company c : app.getCompanies()) {
-            for(Manager m : managers) {
-                if(m.resume.userInfo.getName().equals(c.manager.resume.userInfo.getName()) &&
-                        m.resume.userInfo.getSurname().equals(c.manager.resume.userInfo.getSurname())) {
-                    m.company = c.name;
-                    c.manager = m;
-                    break;
-                }
-            }
-            for(Department d: c.departments) {
-                ArrayList<Employee> modifiedE = new ArrayList<>();
-                for(Employee e : d.employees) {
-                    for(Employee eConsumers : employees) {
-                        if(e.resume.userInfo.getName().equals(eConsumers.resume.userInfo.getName()) &&
-                                e.resume.userInfo.getSurname().equals(eConsumers.resume.userInfo.getSurname())) {
-                            eConsumers.friends = new ArrayList<>();
-                            for(Consumer f : e.friends) {
-                                eConsumers.friends.add(Consumer.searchByName(f.resume.userInfo.getSurname()));
-                            }
-                            eConsumers.company = c.name;
-                            modifiedE.add(eConsumers);
-                            break;
-                        }
-                    }
-                }
-                d.employees = new ArrayList<>(modifiedE);
-            }
-            ArrayList<Recruiter> modifiedR = new ArrayList<>();
-            for(Recruiter r : c.recruiters) {
-                for(Recruiter rConsumers : recruiters) {
-                    if(r.resume.userInfo.getName().equals(rConsumers.resume.userInfo.getName()) &&
-                            r.resume.userInfo.getSurname().equals(rConsumers.resume.userInfo.getSurname())) {
-                        rConsumers.friends = new ArrayList<>();
-                        for(Consumer f : r.friends) {
-                            rConsumers.friends.add(Consumer.searchByName(f.resume.userInfo.getSurname()));
-                        }
-                        rConsumers.company = c.name;
-                        modifiedR.add(rConsumers);
-                        break;
-                    }
-                }
-                c.recruiters = new ArrayList<>(modifiedR);
-            }
-        }
-        ArrayList<User> modifiedU = new ArrayList<>();
-        for(User u : app.users) {
-            for(User uConsumers : users) {
-                if(u.resume.userInfo.getName().equals(uConsumers.resume.userInfo.getName()) &&
-                        u.resume.userInfo.getSurname().equals(uConsumers.resume.userInfo.getSurname())) {
-                    uConsumers.friends = new ArrayList<>();
-                    for(Consumer f : u.friends) {
-                        uConsumers.friends.add(Consumer.searchByName(f.resume.userInfo.getSurname()));
-                    }
-                    modifiedU.add(uConsumers);
-                    break;
-                }
-            }
-            app.users = new ArrayList<>(modifiedU);
-        }
-        return app;
     }
     public static Consumer parseInformation(JSONObject consumerObject, Object refObject) throws InvalidDatesException {
         Consumer c;
