@@ -167,18 +167,18 @@ public class Test {
         // Testing data
         printDataInput(mainApp);
         // Applying process
-        for(User u : mainApp.users) {
-            for(String company : u.companiesInterest) {
-                for(Job j : Application.getInstance().getCompany(company).departments.get(0).jobs) {
-                    j.apply(u);
-                }
-            }
-        }
-        for(Company c : mainApp.getCompanies()) {
-            for(Job j : c.departments.get(0).jobs) {
-                c.manager.process(j);
-            }
-        }
+//        for(User u : mainApp.users) {
+//            for(String company : u.companiesInterest) {
+//                for(Job j : Application.getInstance().getCompany(company).departments.get(0).jobs) {
+//                    j.apply(u);
+//                }
+//            }
+//        }
+//        for(Company c : mainApp.getCompanies()) {
+//            for(Job j : c.departments.get(0).jobs) {
+//                c.manager.process(j);
+//            }
+//        }
     }
     public static void printDataInput(Application newApp) {
         for(Company c : newApp.getCompanies()) {
