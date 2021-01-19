@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class App extends JFrame {
     private JButton adminPageButton;
@@ -35,16 +36,26 @@ public class App extends JFrame {
     private JLabel departmentEmployeesLabel;
     private JButton getBudgetButton;
     private JTextField budgetTextField;
+    private JTextField searchField;
+    private JButton searchButton;
+    private JTextArea informationArea;
+    private JList educationList;
+    private JList experienceList;
+    private JLabel experienceLabel;
+    private JLabel educationLabel;
+    private JLabel informationLabel;
     private DefaultListModel<String> userListModel;
     private DefaultListModel<String> companyListModel;
     private DefaultListModel<String> applicationListModel;
     private DefaultListModel<String> departmentListModel;
     private DefaultListModel<String> departmentEmployeesListModel;
+    private DefaultListModel<String> educationListModel;
+    private DefaultListModel<String> experienceListModel;
 
     App() throws ResumeIncompleteException, InvalidDatesException, IOException {
         super("Application");
         Test.Parser();
-        this.setMinimumSize(new Dimension(400, 400));
+        this.setMinimumSize(new Dimension(800, 800));
         this.setContentPane(this.mainPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         managerPagePanel.setVisible(false);
@@ -56,6 +67,8 @@ public class App extends JFrame {
         applicationListModel = new DefaultListModel<>();
         departmentListModel = new DefaultListModel<>();
         departmentEmployeesListModel = new DefaultListModel<>();
+        experienceListModel = new DefaultListModel<>();
+        educationListModel = new DefaultListModel<>();
         popCompanyList(new ArrayList<>(Application.getInstance().companies));
         popUserList(new ArrayList<>(Application.getInstance().users));
         popApplicationList(Application.getInstance().getCompany("Google").manager.applications);
@@ -64,6 +77,10 @@ public class App extends JFrame {
         applicationList.setModel(applicationListModel);
         departmentList.setModel(departmentListModel);
         departmentEmployeesList.setModel(departmentEmployeesListModel);
+        educationList.setModel(educationListModel);
+        experienceList.setModel(experienceListModel);
+        informationArea.setLineWrap(true);
+        informationArea.setWrapStyleWord(true);
         adminPageButton.setSelected(true);
         adminPageButton.addActionListener(e -> {
             adminPagePanel.setVisible(true);
@@ -71,18 +88,29 @@ public class App extends JFrame {
             profilePagePanel.setVisible(false);
             companyInfoPanel.setVisible(false);
             departmentEmployeesListModel.clear();
+            informationArea.setText("");
+            experienceListModel.clear();
+            educationListModel.clear();
         });
         managerPageButton.addActionListener(e -> {
             adminPagePanel.setVisible(false);
             managerPagePanel.setVisible(true);
             profilePagePanel.setVisible(false);
             companyInfoPanel.setVisible(false);
+            departmentEmployeesListModel.clear();
+            informationArea.setText("");
+            experienceListModel.clear();
+            educationListModel.clear();
         });
         profilePageButton.addActionListener(e -> {
             adminPagePanel.setVisible(false);
             managerPagePanel.setVisible(false);
             profilePagePanel.setVisible(true);
             companyInfoPanel.setVisible(false);
+            departmentEmployeesListModel.clear();
+            informationArea.setText("");
+            experienceListModel.clear();
+            educationListModel.clear();
         });
         appAcceptButton.addActionListener(new ActionListener() {
             @Override
@@ -163,6 +191,32 @@ public class App extends JFrame {
                 budgetTextField.setText("");
             }
         });
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[] userName = searchField.getText().split(" ");
+                searchField.setText("");
+                Consumer c = Consumer.searchByName(userName[1]);
+                if (c != null) {
+                    String s = "";
+                    s += "Name: " + c.resume.userInfo.getName() + " " + c.resume.userInfo.getSurname() + "\n" +
+                            "Email: " + c.resume.userInfo.getEmail() + "\n" +
+                            "Phone: " + c.resume.userInfo.getPhone() + "\n";
+                    s += "Languages: [";
+                    for (Map.Entry<String, String> lang : c.resume.userInfo.getLanguages().entrySet()) {
+                        s += " " + lang.getKey() + "-" + lang.getValue() + " ";
+                    }
+                    s += "]\n";
+                    informationArea.setText(s);
+                    popEducationList(c.resume.education);
+                    popExperienceList(c.resume.experience);
+                } else {
+                    informationArea.setText("");
+                    educationListModel.clear();
+                    experienceListModel.clear();
+                }
+            }
+        });
     }
 
     public void popUserList(ArrayList<User> users) {
@@ -197,6 +251,20 @@ public class App extends JFrame {
         departmentEmployeesListModel.clear();
         for (Employee e : employees) {
             departmentEmployeesListModel.addElement(e.resume.userInfo.getName() + " " + e.resume.userInfo.getSurname());
+        }
+    }
+
+    public void popEducationList(ArrayList<Education> education) {
+        educationListModel.clear();
+        for (Education e : education) {
+            educationListModel.addElement(e.institution + ": " + e.startYear.getYear() + " > " + e.gradYear.getYear() + "; GPA: " + e.gradGPA + "(" + e.level + ")");
+        }
+    }
+
+    public void popExperienceList(ArrayList<Experience> experience) {
+        experienceListModel.clear();
+        for (Experience e : experience) {
+            experienceListModel.addElement(e.position + "@" + e.company + ": " + e.startYear.getYear() + " > " + e.endYear.getYear());
         }
     }
 
@@ -255,8 +323,28 @@ public class App extends JFrame {
         applicationList = new JList();
         managerPagePanel.add(applicationList, new GridConstraints(1, 0, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 100), null, 0, false));
         profilePagePanel = new JPanel();
-        profilePagePanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        profilePagePanel.setLayout(new GridLayoutManager(4, 2, new Insets(0, 0, 0, 0), -1, -1));
         contentPanel.add(profilePagePanel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        searchField = new JTextField();
+        profilePagePanel.add(searchField, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        searchButton = new JButton();
+        searchButton.setText("Search");
+        profilePagePanel.add(searchButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        informationArea = new JTextArea();
+        profilePagePanel.add(informationArea, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        educationList = new JList();
+        profilePagePanel.add(educationList, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        experienceList = new JList();
+        profilePagePanel.add(experienceList, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        informationLabel = new JLabel();
+        informationLabel.setText("Information");
+        profilePagePanel.add(informationLabel, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        educationLabel = new JLabel();
+        educationLabel.setText("Education");
+        profilePagePanel.add(educationLabel, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        experienceLabel = new JLabel();
+        experienceLabel.setText("Experience");
+        profilePagePanel.add(experienceLabel, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         companyInfoPanel = new JPanel();
         companyInfoPanel.setLayout(new GridLayoutManager(4, 2, new Insets(0, 0, 0, 0), -1, -1));
         contentPanel.add(companyInfoPanel, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));

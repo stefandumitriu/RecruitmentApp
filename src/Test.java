@@ -151,6 +151,7 @@ public class Test {
                     newRec.add(Consumer.searchByName(friendName[1]));
                 }
                 mainApp.getCompany(companyName).recruiters.add(newRec);
+                mainApp.getCompany(companyName).add(newRec, mainApp.getCompany(companyName).departments.get(0));
             }
         }
         JSONArray usersInput = o.getJSONArray("users");
@@ -301,7 +302,7 @@ public class Test {
                 endYear = LocalDate.parse((String) edObject.get("end_date"), formatter);
             }
             else
-                endYear = LocalDate.now();
+                endYear = startYear.plusYears(4);
             tempEducation.add(new Education(startYear, endYear, institutionName, level, GPA));
         }
         JSONArray experienceArray = consumerObject.getJSONArray("experience");
