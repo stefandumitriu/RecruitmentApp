@@ -22,21 +22,32 @@ public class App extends JFrame {
     private JPanel profilePagePanel;
     private JLabel companyListLabel;
     private JLabel userListLabel;
+    private JLabel applicationLabel;
+    private JList applicationList;
+    private JButton appAcceptButton;
+    private JButton appDeclineButton;
     private DefaultListModel<String> userListModel;
     private DefaultListModel<String> companyListModel;
+    private DefaultListModel<String> applicationListModel;
 
     App() throws ResumeIncompleteException, InvalidDatesException, IOException {
         super("Application");
         Test.Parser();
+        this.setMinimumSize(new Dimension(400, 400));
         this.setContentPane(this.mainPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        managerPagePanel.setVisible(false);
+        profilePagePanel.setVisible(false);
         this.pack();
         userListModel = new DefaultListModel<>();
         companyListModel = new DefaultListModel<>();
+        applicationListModel = new DefaultListModel<>();
         popCompanyList(new ArrayList<>(Application.getInstance().companies));
         popUserList(new ArrayList<>(Application.getInstance().users));
+        popApplicationList(Application.getInstance().getCompany("Google").manager.applications);
         userList.setModel(userListModel);
         companyList.setModel(companyListModel);
+        applicationList.setModel(applicationListModel);
         adminPageButton.setSelected(true);
         adminPageButton.addActionListener(e -> {
             adminPagePanel.setVisible(true);
@@ -53,9 +64,47 @@ public class App extends JFrame {
             managerPagePanel.setVisible(false);
             profilePagePanel.setVisible(true);
         });
+        appAcceptButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Request<Job, Consumer> selRequest = null;
+                for (Request<Job, Consumer> r : Application.getInstance().getCompany("Google").manager.applications) {
+                    String genString = r.getValue1().resume.userInfo.getName() + " " + r.getValue1().resume.userInfo.getSurname() + ": " +
+                            String.format("%.2f", r.getScore()) + "@" + r.getKey().jobName;
+                    if (genString.equals(applicationList.getSelectedValue().toString())) {
+                        selRequest = r;
+                        break;
+                    }
+                }
+                Application.getInstance().getCompany("Google").manager.applications.remove(selRequest);
+                ArrayList<Request<Job, Consumer>> newAppArray = new ArrayList<>();
+                for (Request<Job, Consumer> r : Application.getInstance().getCompany("Google").manager.applications) {
+                    if (!r.getValue1().equals(selRequest.getValue1()) && !r.getKey().equals(selRequest.getKey())) {
+                        newAppArray.add(r);
+                    }
+                }
+                Application.getInstance().getCompany("Google").manager.applications = newAppArray;
+                popApplicationList(new ArrayList<>(Application.getInstance().getCompany("Google").manager.applications));
+                if (Application.getInstance().users.contains(selRequest.getValue1())) {
+                    try {
+                        Application.getInstance().getCompany(selRequest.getKey().company).add(((User) selRequest.getValue1()).convert(),
+                                Application.getInstance().getCompany(selRequest.getKey().company).departments.get(0));
+                    } catch (ResumeIncompleteException resumeIncompleteException) {
+                        resumeIncompleteException.printStackTrace();
+                    }
+                    Application.getInstance().users.remove(selRequest.getValue1());
+                    popUserList(new ArrayList<>(Application.getInstance().users));
+                    int idx = applicationList.getSelectedIndex();
+                    if (idx != -1) {
+                        applicationListModel.remove(idx);
+                    }
+                }
+            }
+        });
     }
 
     public void popUserList(ArrayList<User> users) {
+        userListModel.clear();
         for (User u : users) {
             userListModel.addElement(u.resume.userInfo.getName() + " " + u.resume.userInfo.getSurname());
         }
@@ -64,6 +113,14 @@ public class App extends JFrame {
     public void popCompanyList(ArrayList<Company> companyArrayList) {
         for (Company c : companyArrayList) {
             companyListModel.addElement(c.name);
+        }
+    }
+
+    public void popApplicationList(ArrayList<Request<Job, Consumer>> applicationList) {
+        applicationListModel.clear();
+        for (Request<Job, Consumer> r : applicationList) {
+            applicationListModel.addElement(r.getValue1().resume.userInfo.getName() + " " + r.getValue1().resume.userInfo.getSurname() + ": " +
+                    String.format("%.2f", r.getScore()) + "@" + r.getKey().jobName);
         }
     }
 
@@ -108,8 +165,19 @@ public class App extends JFrame {
         userList = new JList();
         adminPagePanel.add(userList, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         managerPagePanel = new JPanel();
-        managerPagePanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        managerPagePanel.setLayout(new GridLayoutManager(3, 2, new Insets(0, 0, 0, 0), -1, -1));
         contentPanel.add(managerPagePanel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        applicationLabel = new JLabel();
+        applicationLabel.setText("Applications");
+        managerPagePanel.add(applicationLabel, new GridConstraints(0, 0, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        appDeclineButton = new JButton();
+        appDeclineButton.setText("Decline");
+        managerPagePanel.add(appDeclineButton, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        appAcceptButton = new JButton();
+        appAcceptButton.setText("Accept");
+        managerPagePanel.add(appAcceptButton, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        applicationList = new JList();
+        managerPagePanel.add(applicationList, new GridConstraints(1, 0, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 100), null, 0, false));
         profilePagePanel = new JPanel();
         profilePagePanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         contentPanel.add(profilePagePanel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
