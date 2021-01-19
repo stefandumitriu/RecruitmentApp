@@ -2,9 +2,10 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -26,9 +27,19 @@ public class App extends JFrame {
     private JList applicationList;
     private JButton appAcceptButton;
     private JButton appDeclineButton;
+    private JPanel companyInfoPanel;
+    private JLabel companyNameLabel;
+    private JList departmentList;
+    private JList departmentEmployeesList;
+    private JLabel departmentsLabel;
+    private JLabel departmentEmployeesLabel;
+    private JButton getBudgetButton;
+    private JTextField budgetTextField;
     private DefaultListModel<String> userListModel;
     private DefaultListModel<String> companyListModel;
     private DefaultListModel<String> applicationListModel;
+    private DefaultListModel<String> departmentListModel;
+    private DefaultListModel<String> departmentEmployeesListModel;
 
     App() throws ResumeIncompleteException, InvalidDatesException, IOException {
         super("Application");
@@ -38,31 +49,40 @@ public class App extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         managerPagePanel.setVisible(false);
         profilePagePanel.setVisible(false);
+        companyInfoPanel.setVisible(false);
         this.pack();
         userListModel = new DefaultListModel<>();
         companyListModel = new DefaultListModel<>();
         applicationListModel = new DefaultListModel<>();
+        departmentListModel = new DefaultListModel<>();
+        departmentEmployeesListModel = new DefaultListModel<>();
         popCompanyList(new ArrayList<>(Application.getInstance().companies));
         popUserList(new ArrayList<>(Application.getInstance().users));
         popApplicationList(Application.getInstance().getCompany("Google").manager.applications);
         userList.setModel(userListModel);
         companyList.setModel(companyListModel);
         applicationList.setModel(applicationListModel);
+        departmentList.setModel(departmentListModel);
+        departmentEmployeesList.setModel(departmentEmployeesListModel);
         adminPageButton.setSelected(true);
         adminPageButton.addActionListener(e -> {
             adminPagePanel.setVisible(true);
             managerPagePanel.setVisible(false);
             profilePagePanel.setVisible(false);
+            companyInfoPanel.setVisible(false);
+            departmentEmployeesListModel.clear();
         });
         managerPageButton.addActionListener(e -> {
             adminPagePanel.setVisible(false);
             managerPagePanel.setVisible(true);
             profilePagePanel.setVisible(false);
+            companyInfoPanel.setVisible(false);
         });
         profilePageButton.addActionListener(e -> {
             adminPagePanel.setVisible(false);
             managerPagePanel.setVisible(false);
             profilePagePanel.setVisible(true);
+            companyInfoPanel.setVisible(false);
         });
         appAcceptButton.addActionListener(new ActionListener() {
             @Override
@@ -101,6 +121,48 @@ public class App extends JFrame {
                 }
             }
         });
+        companyList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JList list = (JList) e.getSource();
+                if (e.getClickCount() == 2) {
+                    int index = list.locationToIndex(e.getPoint());
+                    adminPagePanel.setVisible(false);
+                    managerPagePanel.setVisible(false);
+                    profilePagePanel.setVisible(false);
+                    companyInfoPanel.setVisible(true);
+                    companyNameLabel.setText(companyListModel.get(index));
+                    Company c = Application.getInstance().getCompany(companyListModel.get(index));
+                    popDepartmentList(c.departments);
+                }
+            }
+        });
+        departmentList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JList list = (JList) e.getSource();
+                if (e.getClickCount() == 2) {
+                    int index = list.locationToIndex(e.getPoint());
+                    Company c = Application.getInstance().getCompany(companyNameLabel.getText());
+                    popEmployeesList(c.departments.get(index).employees);
+                }
+            }
+        });
+        getBudgetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Company c = Application.getInstance().getCompany(companyNameLabel.getText());
+                int index = departmentList.getSelectedIndex();
+                budgetTextField.setText(String.format("%s has a budget of: %.2f", c.departments.get(index).getClass().getName(),
+                        c.departments.get(index).getTotalSalaryBudget()));
+            }
+        });
+        departmentList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                budgetTextField.setText("");
+            }
+        });
     }
 
     public void popUserList(ArrayList<User> users) {
@@ -121,6 +183,20 @@ public class App extends JFrame {
         for (Request<Job, Consumer> r : applicationList) {
             applicationListModel.addElement(r.getValue1().resume.userInfo.getName() + " " + r.getValue1().resume.userInfo.getSurname() + ": " +
                     String.format("%.2f", r.getScore()) + "@" + r.getKey().jobName);
+        }
+    }
+
+    public void popDepartmentList(ArrayList<Department> departments) {
+        departmentListModel.clear();
+        for (Department d : departments) {
+            departmentListModel.addElement(d.getClass().getName());
+        }
+    }
+
+    public void popEmployeesList(ArrayList<Employee> employees) {
+        departmentEmployeesListModel.clear();
+        for (Employee e : employees) {
+            departmentEmployeesListModel.addElement(e.resume.userInfo.getName() + " " + e.resume.userInfo.getSurname());
         }
     }
 
@@ -147,7 +223,7 @@ public class App extends JFrame {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayoutManager(3, 3, new Insets(0, 0, 0, 0), -1, -1));
         contentPanel = new JPanel();
-        contentPanel.setLayout(new GridLayoutManager(3, 1, new Insets(0, 0, 0, 0), -1, -1));
+        contentPanel.setLayout(new GridLayoutManager(4, 1, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.add(contentPanel, new GridConstraints(2, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(24, 90), null, 0, false));
         adminPagePanel = new JPanel();
         adminPagePanel.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
@@ -181,6 +257,27 @@ public class App extends JFrame {
         profilePagePanel = new JPanel();
         profilePagePanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         contentPanel.add(profilePagePanel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        companyInfoPanel = new JPanel();
+        companyInfoPanel.setLayout(new GridLayoutManager(4, 2, new Insets(0, 0, 0, 0), -1, -1));
+        contentPanel.add(companyInfoPanel, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        companyNameLabel = new JLabel();
+        companyNameLabel.setText("Label");
+        companyInfoPanel.add(companyNameLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        departmentList = new JList();
+        companyInfoPanel.add(departmentList, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        departmentEmployeesList = new JList();
+        companyInfoPanel.add(departmentEmployeesList, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        departmentsLabel = new JLabel();
+        departmentsLabel.setText("Departments");
+        companyInfoPanel.add(departmentsLabel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        departmentEmployeesLabel = new JLabel();
+        departmentEmployeesLabel.setText("Employees");
+        companyInfoPanel.add(departmentEmployeesLabel, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        getBudgetButton = new JButton();
+        getBudgetButton.setText("Get Total Budget");
+        companyInfoPanel.add(getBudgetButton, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        budgetTextField = new JTextField();
+        companyInfoPanel.add(budgetTextField, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         menuPanel = new JPanel();
         menuPanel.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.add(menuPanel, new GridConstraints(0, 0, 2, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(24, 47), null, 0, false));
