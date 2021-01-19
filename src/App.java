@@ -44,6 +44,7 @@ public class App extends JFrame {
     private JLabel experienceLabel;
     private JLabel educationLabel;
     private JLabel informationLabel;
+    private JComboBox<String> companyBox;
     private DefaultListModel<String> userListModel;
     private DefaultListModel<String> companyListModel;
     private DefaultListModel<String> applicationListModel;
@@ -55,6 +56,11 @@ public class App extends JFrame {
     App() throws ResumeIncompleteException, InvalidDatesException, IOException {
         super("Application");
         Test.Parser();
+        String[] companies = new String[Application.getInstance().getCompanies().size()];
+        for (int i = 0; i < Application.getInstance().getCompanies().size(); i++) {
+            companyBox.addItem(Application.getInstance().getCompanies().get(i).name);
+        }
+        companyBox.setSelectedIndex(0);
         this.setMinimumSize(new Dimension(800, 800));
         this.setContentPane(this.mainPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -71,7 +77,7 @@ public class App extends JFrame {
         educationListModel = new DefaultListModel<>();
         popCompanyList(new ArrayList<>(Application.getInstance().companies));
         popUserList(new ArrayList<>(Application.getInstance().users));
-        popApplicationList(Application.getInstance().getCompany("Google").manager.applications);
+        popApplicationList(Application.getInstance().getCompany((String) companyBox.getSelectedItem()).manager.applications);
         userList.setModel(userListModel);
         companyList.setModel(companyListModel);
         applicationList.setModel(applicationListModel);
@@ -116,7 +122,7 @@ public class App extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Request<Job, Consumer> selRequest = null;
-                for (Request<Job, Consumer> r : Application.getInstance().getCompany("Google").manager.applications) {
+                for (Request<Job, Consumer> r : Application.getInstance().getCompany((String) companyBox.getSelectedItem()).manager.applications) {
                     String genString = r.getValue1().resume.userInfo.getName() + " " + r.getValue1().resume.userInfo.getSurname() + ": " +
                             String.format("%.2f", r.getScore()) + "@" + r.getKey().jobName;
                     if (genString.equals(applicationList.getSelectedValue().toString())) {
@@ -124,15 +130,17 @@ public class App extends JFrame {
                         break;
                     }
                 }
-                Application.getInstance().getCompany("Google").manager.applications.remove(selRequest);
-                ArrayList<Request<Job, Consumer>> newAppArray = new ArrayList<>();
-                for (Request<Job, Consumer> r : Application.getInstance().getCompany("Google").manager.applications) {
-                    if (!r.getValue1().equals(selRequest.getValue1()) && !r.getKey().equals(selRequest.getKey())) {
-                        newAppArray.add(r);
+                Application.getInstance().getCompany((String) companyBox.getSelectedItem()).manager.applications.remove(selRequest);
+                for (Company c : Application.getInstance().getCompanies()) {
+                    ArrayList<Request<Job, Consumer>> newAppArray = new ArrayList<>();
+                    for (Request<Job, Consumer> r : c.manager.applications) {
+                        if (!r.getValue1().equals(selRequest.getValue1()) && !r.getKey().equals(selRequest.getKey())) {
+                            newAppArray.add(r);
+                        }
                     }
+                    c.manager.applications = newAppArray;
                 }
-                Application.getInstance().getCompany("Google").manager.applications = newAppArray;
-                popApplicationList(new ArrayList<>(Application.getInstance().getCompany("Google").manager.applications));
+                popApplicationList(Application.getInstance().getCompany((String) companyBox.getSelectedItem()).manager.applications);
                 if (Application.getInstance().users.contains(selRequest.getValue1())) {
                     try {
                         Application.getInstance().getCompany(selRequest.getKey().company).add(((User) selRequest.getValue1()).convert(),
@@ -215,6 +223,12 @@ public class App extends JFrame {
                     educationListModel.clear();
                     experienceListModel.clear();
                 }
+            }
+        });
+        companyBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                popApplicationList(Application.getInstance().getCompany((String) companyBox.getSelectedItem()).manager.applications);
             }
         });
     }
@@ -309,19 +323,21 @@ public class App extends JFrame {
         userList = new JList();
         adminPagePanel.add(userList, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         managerPagePanel = new JPanel();
-        managerPagePanel.setLayout(new GridLayoutManager(3, 2, new Insets(0, 0, 0, 0), -1, -1));
+        managerPagePanel.setLayout(new GridLayoutManager(3, 3, new Insets(0, 0, 0, 0), -1, -1));
         contentPanel.add(managerPagePanel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         applicationLabel = new JLabel();
         applicationLabel.setText("Applications");
         managerPagePanel.add(applicationLabel, new GridConstraints(0, 0, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         appDeclineButton = new JButton();
         appDeclineButton.setText("Decline");
-        managerPagePanel.add(appDeclineButton, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        managerPagePanel.add(appDeclineButton, new GridConstraints(2, 1, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         appAcceptButton = new JButton();
         appAcceptButton.setText("Accept");
-        managerPagePanel.add(appAcceptButton, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        managerPagePanel.add(appAcceptButton, new GridConstraints(1, 1, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         applicationList = new JList();
         managerPagePanel.add(applicationList, new GridConstraints(1, 0, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 100), null, 0, false));
+        companyBox = new JComboBox();
+        managerPagePanel.add(companyBox, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         profilePagePanel = new JPanel();
         profilePagePanel.setLayout(new GridLayoutManager(4, 2, new Insets(0, 0, 0, 0), -1, -1));
         contentPanel.add(profilePagePanel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
