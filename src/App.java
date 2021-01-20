@@ -231,6 +231,22 @@ public class App extends JFrame {
                 popApplicationList(Application.getInstance().getCompany((String) companyBox.getSelectedItem()).manager.applications);
             }
         });
+        appDeclineButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Request<Job, Consumer> selRequest = null;
+                for (Request<Job, Consumer> r : Application.getInstance().getCompany((String) companyBox.getSelectedItem()).manager.applications) {
+                    String genString = r.getValue1().resume.userInfo.getName() + " " + r.getValue1().resume.userInfo.getSurname() + ": " +
+                            String.format("%.2f", r.getScore()) + "@" + r.getKey().jobName;
+                    if (genString.equals(applicationList.getSelectedValue().toString())) {
+                        selRequest = r;
+                        break;
+                    }
+                }
+                Application.getInstance().getCompany((String) companyBox.getSelectedItem()).manager.applications.remove(selRequest);
+                popApplicationList(Application.getInstance().getCompany((String) companyBox.getSelectedItem()).manager.applications);
+            }
+        });
     }
 
     public void popUserList(ArrayList<User> users) {
