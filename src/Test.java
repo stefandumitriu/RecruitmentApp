@@ -1,5 +1,6 @@
 import org.json.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.*;
@@ -10,6 +11,7 @@ import java.util.Collections;
 
 public class Test {
     public static void Parser() throws IOException, InvalidDatesException, ResumeIncompleteException {
+        String basePath = new File("").getAbsolutePath();
         Application mainApp = Application.getInstance();
         DepartmentFactory departmentFactory = new DepartmentFactory();
         /* FROM HERE I PARSE CONSUMER.JSON FILE
@@ -18,7 +20,7 @@ public class Test {
         *
         *
          */
-        Path p_consumers = Paths.get("C:\\Users\\stefan.dumitriu\\Desktop\\tema_poo\\src\\consumers.json");
+        Path p_consumers = Paths.get(basePath + "\\src\\consumers.json");
         String jsonStringConsumers = Files.readString(p_consumers);
         JSONObject content = new JSONObject(jsonStringConsumers);
         JSONArray employees = content.getJSONArray("employees");
@@ -72,7 +74,7 @@ public class Test {
         *
         *
          */
-        Path p_input = Paths.get("C:\\Users\\stefan.dumitriu\\Desktop\\tema_poo\\src\\input.json");
+        Path p_input = Paths.get(basePath + "\\src\\input.json");
         String jsonStringInput = Files.readString(p_input);
         JSONObject o = new JSONObject(jsonStringInput);
         JSONArray companies = o.getJSONArray("companies");
